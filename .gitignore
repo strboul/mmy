@@ -1,0 +1,13 @@
+.Rhistory
+.Rapp.history
+.RData
+*-Ex.R
+/*.tar.gz
+/*.Rcheck/
+.Rproj.user/
+vignettes/*.html
+vignettes/*.pdf
+*.utf8.md
+*.knit.md
+*.swp
+.Rproj.user
