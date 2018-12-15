@@ -1,0 +1,18 @@
+Package: mmy
+Version: 0.0.0.9000
+Title: Custom miscellaneous R functions
+Description: Some custom solutions.
+Authors@R: person("Metin", "Yazici", email = "stradivariusboul@gmail.com", role = c("aut", "cre"))
+License: file LICENSE
+Imports:
+    stats
+Suggests:
+    testthat,
+    covr,
+    lintr,
+    microbenchmark
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1

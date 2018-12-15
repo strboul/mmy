@@ -6,9 +6,9 @@
 #'   \code{n = 2} means four rows in total.
 #' @param visual. logical. default \code{FALSE}. should tables be separated by a
 #'   line rule?
-#' @importFrom utils head
 #' @inheritDotParams head
 #' @references \code{\link[utils]{head}} function documentation.
+#' @importFrom utils head
 #' @examples \dontrun{
 #' headtail(mtcars, n = 2L)
 #'
@@ -19,9 +19,12 @@
 #' ## Volvo 142E    21.4   4  121 109 4.11 2.780 18.60  1  1    4    2
 #' }
 #' @export
-headtail <- function(x, n = 2L, ...) {
-  rbind(
-    utils::head(x, n = n, ...),
-    utils::tail(x, n = n, ...)
-  )
+headtail <- function(x, n = 2L, visual = FALSE, ...) {
+	if (visual) {
+		# TODO
+	}
+	rbind(
+	      utils::head(x, n = n, ...),
+	      utils::tail(x, n = n, ...)
+	      )
 }

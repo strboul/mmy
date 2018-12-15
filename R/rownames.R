@@ -1,11 +1,13 @@
 
 #' Dealing with rownames
 #'
-#' @param x `data.frame`.
+#' @param x a \code{data.frame}.
 #' @details
-#' + `un_row_names` removes the row names of a data.frame.
-#' + `stnd_row_names` standardizes row names. In other words, remove them and
-#' attach as a new column in the `new data.frame`.
+#' \enumerate{
+#' \item \code{un_row_names} removes the row names of a data.frame.
+#' \item \code{std_row_names} standardizes row names. In other words, it removes them
+#' and attaches as a new column into a new \code{data.frame}.
+#' }
 #' @examples \dontrun{
 #' un_row_names(mtcars)
 #' }
@@ -22,7 +24,7 @@ un_row_names <- function(x) {
 
 #' @rdname row_names
 #' @export
-stnd_row_names <- function(x) {
+std_row_names <- function(x) {
   stopifnot(is.data.frame(x))
   x[["rowname"]] <- row.names(x)
   x <- x[c("rowname", setdiff(names(x), "rowname"))]
