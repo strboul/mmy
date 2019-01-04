@@ -1,7 +1,7 @@
 
 #' List global environment objects
 #'
-#' @env which environment to look at.
+#' @param env which environment to look at.
 #' @details Similar to what RStudio environment pane displays.
 #' @export
 list_global_objects <- function(env = ".GlobalEnv") {

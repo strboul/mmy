@@ -3,24 +3,24 @@
 \name{row_names}
 \alias{row_names}
 \alias{un_row_names}
-\alias{stnd_row_names}
+\alias{std_row_names}
 \title{Dealing with rownames}
 \usage{
 un_row_names(x)
 
-stnd_row_names(x)
+std_row_names(x)
 }
 \arguments{
-\item{x}{\code{data.frame}.}
+\item{x}{a \code{data.frame}.}
 }
 \description{
 Dealing with rownames
 }
 \details{
-\itemize{
+\enumerate{
 \item \code{un_row_names} removes the row names of a data.frame.
-\item \code{stnd_row_names} standardizes row names. In other words, remove them and
-attach as a new column in the \code{new data.frame}.
+\item \code{std_row_names} standardizes row names. In other words, it removes them
+and attaches as a new column into a new \code{data.frame}.
 }
 }
 \examples{

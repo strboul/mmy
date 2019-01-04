@@ -13,7 +13,7 @@ comp_text(text)
 Turn a string compatible for directories
 }
 \details{
-Takes the input string and do the following steps: turning it into
+Takes the input string and do the following steps: turn it into
 lower case, remove all punctuation, add hyphen between characters splited
 into separate pieces.
 }

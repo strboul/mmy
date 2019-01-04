@@ -4,18 +4,13 @@
 \alias{headtail}
 \title{Display head and tail of an object together}
 \usage{
-headtail(x, n = 2L, ...)
+headtail(x, n = 2L, visual = FALSE, ...)
 }
 \arguments{
 \item{x}{an object.}
 
 \item{n}{a single integer. number of rows to be displayed per data i.e.
 \code{n = 2} means four rows in total.}
-
-\item{...}{Arguments passed on to \code{head}
-\describe{
-  \item{}{}
-}}
 
 \item{visual.}{logical. default \code{FALSE}. should tables be separated by a
 line rule?}
@@ -33,7 +28,4 @@ headtail(mtcars, n = 2L)
 ## Maserati Bora 15.0   8  301 335 3.54 3.570 14.60  0  1    5    8
 ## Volvo 142E    21.4   4  121 109 4.11 2.780 18.60  1  1    4    2
 }
-}
-\references{
-\code{\link[utils]{head}} function documentation.
 }

@@ -6,6 +6,9 @@
 \usage{
 list_global_objects(env = ".GlobalEnv")
 }
+\arguments{
+\item{env}{which environment to look at.}
+}
 \description{
 List global environment objects
 }

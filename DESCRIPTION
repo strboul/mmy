@@ -5,14 +5,11 @@ Description: Some custom solutions.
 Authors@R: person("Metin", "Yazici", email = "stradivariusboul@gmail.com", role = c("aut", "cre"))
 License: file LICENSE
 Imports:
-    stats
+    stats,
+		shiny
 Suggests:
-    testthat,
-    covr,
-    lintr,
-    microbenchmark
+    testthat
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

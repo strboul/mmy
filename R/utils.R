@@ -6,9 +6,6 @@
 #'   \code{n = 2} means four rows in total.
 #' @param visual. logical. default \code{FALSE}. should tables be separated by a
 #'   line rule?
-#' @inheritDotParams head
-#' @references \code{\link[utils]{head}} function documentation.
-#' @importFrom utils head
 #' @examples \dontrun{
 #' headtail(mtcars, n = 2L)
 #'
