@@ -1,4 +1,12 @@
 
+#' Timestamp comforting to ISO-8601
+#'
+#' @param tz time zone.
+#' @export
+tms <- function(tz = "") {
+  format(Sys.time(), "%FT%T%z", tz = tz)
+}
+
 #' Display head and tail of an object together
 #'
 #' @param x an object.
@@ -25,3 +33,4 @@ headtail <- function(x, n = 2L, visual = FALSE, ...) {
 	      utils::tail(x, n = n, ...)
 	      )
 }
+
