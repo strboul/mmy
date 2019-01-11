@@ -14,6 +14,6 @@ Turn a string compatible for directories
 }
 \details{
 Takes the input string and do the following steps: turn it into
-lower case, remove all punctuation, add hyphen between characters splited
-into separate pieces.
+  lower case, remove all punctuation, add hyphen between characters splited
+  into separate pieces.
 }

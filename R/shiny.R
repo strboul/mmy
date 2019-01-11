@@ -29,7 +29,7 @@ shinyprintf <- function(x, text = NULL, con = c("stdout", "stderr")) {
   description <- if (is.null(text)) {
     x.name
   } else {
-    paste(text, x.name)
+    paste("##", text, "##", x.name)
   }
   tms <- sprintf("[%s]", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
   output <- sprintf("%s %s: %s", tms, description, input)
