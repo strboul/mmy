@@ -10,7 +10,7 @@ comp_text <- function(text) {
   if (!is.character(text)) {
     stop("is not a character object: ", text)
   }
-  lower <- tolower(x)
+  lower <- tolower(text)
   punct <- gsub("[^[:alnum:][:space:]']", "", lower)
   split <- strsplit(punct, split = " ")
   hyphen <- paste(split[[1]], collapse = "-")

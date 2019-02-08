@@ -4,13 +4,15 @@
 \alias{headtail}
 \title{Display head and tail of an object together}
 \usage{
-headtail(x, n = 2L, visual = FALSE, ...)
+headtail(x, n = 2L, ...)
 }
 \arguments{
 \item{x}{an object.}
 
 \item{n}{a single integer. number of rows to be displayed per data i.e.
 \code{n = 2} means four rows in total.}
+
+\item{...}{arguments to be passed to or from other methods.}
 
 \item{visual.}{logical. default \code{FALSE}. should tables be separated by a
 line rule?}

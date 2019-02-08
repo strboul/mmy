@@ -1,3 +1,4 @@
+^bench$
 ^\.travis\.yml$
 ^mmy\.Rproj$
 ^\.Rproj\.user$
