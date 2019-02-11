@@ -7,7 +7,7 @@
 #' TODO Paste output as comment (a new endpoint)
 #' TODO Reformat/reindent the pasted code
 #'
-#' @importFrom rstudioapi modifyRange insertText getActiveDocumentContext
+#' @importFrom rstudioapi modifyRange insertText getActiveDocumentContext documentSave
 #' @importFrom utils capture.output
 pasteOutputAddin <- function() {
   pasteOutput$new()
@@ -16,7 +16,7 @@ pasteOutputAddin <- function() {
 pasteOutput <-
   R6::R6Class(
 
-    "pasteOutput",
+    classname = NULL,
 
     public = list(
 
@@ -27,13 +27,22 @@ pasteOutput <-
           output <- private$capture_selected_output(selected[["details"]][["text"]])
           if (!is.null(output)) {
             private$paste_editor(selected, output)
+            private$save_current_file(selected)
           }
         }
       }
 
     ),
     private = list(
-      message.prefix = "pasteOutput:",
+      msg.prefix = "pasteOutput:",
+
+      save_current_file = function(context) {
+
+        if (!context[["path"]] == "") {
+          rstudioapi::documentSave(context[["id"]])
+        }
+
+      },
 
       capture_selected_output = function(expr) {
 
@@ -41,7 +50,7 @@ pasteOutput <-
           utils::capture.output(dput(eval(parse(text = expr))))
         }, error = function(e) {
           message(paste(
-            private$message.prefix,
+            private$msg.prefix,
             sprintf("\` %s \` cannot be evaluated!", expr)
           ))
           invisible(NULL)
@@ -77,20 +86,20 @@ pasteOutput <-
           if (!identical(s[["text"]], "") && !identical(start, end)) {
             c(range = list(s[["range"]]), text = s[["text"]])
           } else {
-            message(paste(private$message.prefix, "select code in the editor..."))
+            message(paste(private$msg.prefix, "select code in the editor..."))
             invisible(NULL)
           }
 
         }) -> details
 
-        c(id = context[["id"]], details = details)
+        c(id = context[["id"]], path = context[["path"]], details = details)
       }
 
     ),
+    class = FALSE,
     lock_class = TRUE
   )
 
 # QUICK TEST CONVERT THIS -->
 # head(mtcars)
 # other text ...
-
