@@ -11,3 +11,4 @@ vignettes/*.pdf
 *.knit.md
 *.swp
 .Rproj.user
+*.Rproj
