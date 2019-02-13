@@ -48,10 +48,12 @@ pasteOutput <-
 
         tryCatch({
           utils::capture.output(dput(eval(parse(text = expr))))
-        }, error = function(e) {
+        }, error = function(cond) {
           message(paste(
             private$msg.prefix,
-            sprintf("\` %s \` cannot be evaluated!", expr)
+            sprintf("\` %s \` cannot be evaluated!", expr),
+            "\n",
+            conditionMessage(cond)
           ))
           invisible(NULL)
         })
