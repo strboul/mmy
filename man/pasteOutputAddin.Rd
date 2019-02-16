@@ -7,10 +7,15 @@
 pasteOutputAddin()
 }
 \description{
-Why this addin? :: Helps e.g. when writing unit tests.
-Why wrap it in R6? :: It keeps around tidy!
+Paste Output RStudio Addin
 }
 \details{
-TODO Paste output as comment (a new endpoint)
+If you are using Nvim-R, \code{:Rinsert dput(head(iris))} will work
+for you. See here: \url{https://www.vim.org/scripts/script.php?script_id=2628}
+
+Why this addin? :: Helps e.g. when writing unit tests.
+Why wrap it in R6? :: It keeps around tidy!
+
+TODO Paste output as unit test with expect_equal (a new endpoint)
 TODO Reformat/reindent the pasted code
 }
