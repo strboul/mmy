@@ -1,6 +1,8 @@
 
 context("test-ht")
 
+skip(NULL)
+
 # modified iris adding char column:
 iris[["charcol"]] <- rep_len(letters, nrow(iris))
 
