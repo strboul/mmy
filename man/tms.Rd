@@ -2,13 +2,15 @@
 % Please edit documentation in R/utils.R
 \name{tms}
 \alias{tms}
-\title{Timestamp comforting to ISO-8601}
+\title{Timestamp comforting to ISO-8601 format}
 \usage{
-tms(tz = "")
+tms(tz = "", offset = TRUE)
 }
 \arguments{
 \item{tz}{time zone.}
+
+\item{offset}{Add UTC offset hours at the end. Default is \code{TRUE}.}
 }
 \description{
-Timestamp comforting to ISO-8601
+Timestamp comforting to ISO-8601 format
 }

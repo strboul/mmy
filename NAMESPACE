@@ -2,7 +2,6 @@
 
 export(comp_text)
 export(get_environment)
-export(headtail)
 export(ht)
 export(list_global_objects)
 export(lsenq)
