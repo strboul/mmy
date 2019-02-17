@@ -1,6 +1,6 @@
 
 .PHONY : all
-all : install
+all : install docs check
 
 # Registering native routines for compiled code:
 register_routines:
