@@ -9,43 +9,41 @@ SEXP _ht (SEXP df, SEXP n) {
 	if (!(Rf_isInteger(n) || Rf_isReal(n))) Rf_error("n isn't numeric");
 
 	int nn = Rf_asInteger(n);
-	// Rf_xlength is up to 64-bit unlike Rf_length which is 32-bit.
+	// Rf_xlength is for up to 64-bit unlike Rf_length which is 32-bit.
 	int ncol = Rf_xlength(df);
 
-	for (int i = 0; i <= ncol; i++) {
+	// colnames
+	SEXP names = Rf_protect(Rf_getAttrib(df, R_NamesSymbol));
+	for (int c = 0; c < ncol; c++) {
+		Rprintf("%s ", CHAR(STRING_ELT(names, c)));
+	}
+	Rf_unprotect(1);
 
-		for (int j = 0; j <= nn; j++) {
+	Rprintf("\n");
+	// head
+	// TODO tail. This time from btm to top
+	for (int j = 0; j < nn; j++) {
 
-			SEXP el = Rf_protect(VECTOR_ELT(df, j));
+		for (int i = 0; i < ncol; i++) {
 
+			SEXP el = Rf_protect(VECTOR_ELT(df, i));
 			if (Rf_isReal(el)) {
-
-				Rprintf("%f ", REAL(el)[i]);
-
+				Rprintf("%f ", REAL(el)[j]);
 			} else if (Rf_isInteger(el)) {
-
-				Rprintf("%d ", INTEGER(el)[i]);
-
+				Rprintf("%d ", INTEGER(el)[j]);
 			} else if (Rf_isString(el)) {
-
-				Rprintf("%s ", CHAR(STRING_ELT(el, i)));
-
+				Rprintf("%s ", CHAR(STRING_ELT(el, j)));
 			} else if (Rf_isFactor(el)) {
-
-				SEXP attr = Rf_protect(Rf_getAttrib(el, R_LevelsSymbol));
-
-				Rprintf("%s ", CHAR(STRING_ELT(attr, INTEGER(el)[i]-1)));
-
+				SEXP attr = Rf_protect(Rf_asCharacterFactor(el));
+				Rprintf("%s ", CHAR(STRING_ELT(attr, j)));
+				Rf_unprotect(1);
 			} else {
-				Rprintf("none");
+				Rprintf("NONE");
 			}
 		}
-
+		Rf_unprotect(1);
 		Rprintf("\n");
-
 	}
-
-	Rf_unprotect(2);
 
 	return R_NilValue;
 }
