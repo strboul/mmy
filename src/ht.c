@@ -40,20 +40,23 @@ void prt(SEXP df, int init, int **num, int **ncol) {
 void head(SEXP df, int *n, int *ncol) { prt(df, 0, &n, &ncol); }
 void tail(SEXP df, int *remain, int *nrow, int *ncol) { prt(df, *remain, &nrow, &ncol); }
 
-SEXP _ht (SEXP df, SEXP n) {
-
+void is_valid (SEXP df, SEXP n) {
 	if (!Rf_isFrame(df)) Rf_error("input must be a data.frame");
-
 	if (!(Rf_xlength(n) == 1)) Rf_error("input length cannot be greater than one");
 	if (!(Rf_isInteger(n) || Rf_isReal(n))) Rf_error("n isn't numeric");
+}
 
-	const int nn = Rf_asInteger(n);
+SEXP _ht (SEXP df, SEXP n) {
+
+	is_valid(df, n);
+
 	// Rf_xlength is for up to 64-bit unlike Rf_length which is 32-bit.
+	const int nn = Rf_asInteger(n);
 	const R_xlen_t nrow = Rf_xlength(Rf_getAttrib(df, R_RowNamesSymbol));
 	const R_xlen_t ncol = Rf_xlength(df);
 	const int remain = nrow - nn;
 
-	// print widths:
+	// print widths
 	int nrowlen = numlen(&nrow);
 	/* int ncollen =  */
 
