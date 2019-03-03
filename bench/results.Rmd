@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 require(mmy, quietly = TRUE)
 ```
 
-An example dataset:
+Generate an example data.frame:
 ```{r}
 n <- 1e5
 df <- data.frame(
@@ -20,13 +20,20 @@ df <- data.frame(
   )
 ```
 
+Display the structure of this object:
+```{r}
+str(df)
+```
+
 ## ht
 
-Not so *fast* (at the moment):
+Seems not so *fast* (at the moment). However, having an heavily optimized head & tail call isn't the primary goal here.
 ```{r}
 system.time(mmy::ht(df))
 ```
 
 ---
 
-Last generated on *`r Sys.Date()`*
+---
+
+File last created on *`r Sys.Date()`*
