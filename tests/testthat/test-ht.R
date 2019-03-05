@@ -5,6 +5,8 @@ skip(NULL)
 
 # modified iris adding char column:
 iris[["charcol"]] <- rep_len(letters, nrow(iris))
+# add NAs:
+iris[seq(1, nrow(iris), 5), c("Sepal.Length", "Sepal.Width")] <- NA
 
 test_that("be sure the iris is modified", {
 
@@ -29,6 +31,9 @@ test_that("be sure the iris is modified", {
 
   expect_is(iris[["charcol"]], "character")
   expect_type(iris[["charcol"]], "character")
+
+	expect_equal(sum(is.na(iris$Sepal.Length)), 30L)
+	expect_equal(sum(is.na(iris$Sepal.Width)), 30L)
 
 })
 

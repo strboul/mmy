@@ -1,7 +1,9 @@
 
+// Rf_xlength is for up to 64-bit unlike Rf_length which is 32-bit.
 #include "mmy.h"
 
 // get length of an integer
+// TODO move to utils.c
 int numlen(int *val){
 	int res = 0;
 	while(!(*val == 0)) {
@@ -13,10 +15,10 @@ int numlen(int *val){
 
 void prt_hspace(int *len) { Rprintf("%*s", *len, ""); }
 
-void prt(SEXP df, int init, int **num, int **ncol) {
-	for (int j = init; j < **num; j++) {
+void prt(SEXP df, int *init, int *num, int *ncol) {
+	for (int j = *init; j < *num; j++) {
 		Rprintf("%i: ", j + 1);
-		for (R_xlen_t i = 0; i < **ncol; i++) {
+		for (R_xlen_t i = 0; i < *ncol; i++) {
 			SEXP el = Rf_protect(VECTOR_ELT(df, i));
 			if (Rf_isReal(el)) {
 				Rprintf("%f ", REAL(el)[j]);
@@ -29,16 +31,17 @@ void prt(SEXP df, int init, int **num, int **ncol) {
 				Rprintf("%s ", CHAR(STRING_ELT(attr, j)));
 				Rf_unprotect(1);
 			} else {
-				Rprintf(R_NaString);
+				Rf_error("some error occured");
 			}
+			Rf_unprotect(1);
 		}
-		Rf_unprotect(1);
 		Rprintf("\n");
 	}
 }
 
-void head(SEXP df, int *n, int *ncol) { prt(df, 0, &n, &ncol); }
-void tail(SEXP df, int *remain, int *nrow, int *ncol) { prt(df, *remain, &nrow, &ncol); }
+// TODO struct
+void head(SEXP df, int *init, int *num, int *ncol) { prt(df, init, num, ncol); }
+void tail(SEXP df, int *init, int *num, int *ncol) { prt(df, init, num, ncol); }
 
 void is_valid (SEXP df, SEXP n) {
 	if (!Rf_isFrame(df)) Rf_error("input must be a data.frame");
@@ -50,17 +53,15 @@ SEXP _ht (SEXP df, SEXP n) {
 
 	is_valid(df, n);
 
-	// Rf_xlength is for up to 64-bit unlike Rf_length which is 32-bit.
-	const int nn = Rf_asInteger(n);
-	const R_xlen_t nrow = Rf_xlength(Rf_getAttrib(df, R_RowNamesSymbol));
-	const R_xlen_t ncol = Rf_xlength(df);
-	const int remain = nrow - nn;
+	int nn = Rf_asInteger(n);
+	R_xlen_t nrow = Rf_xlength(Rf_getAttrib(df, R_RowNamesSymbol));
+	R_xlen_t ncol = Rf_xlength(df);
 
-	// print widths
-	int nrowlen = numlen(&nrow);
+	// print widths:
+	int nrowlen = numlen((int*)&nrow);
 	/* int ncollen =  */
 
-	// colnames
+	// colnames:
 	SEXP names = Rf_protect(Rf_getAttrib(df, R_NamesSymbol));
 	prt_hspace(&nrowlen);
 	for (R_xlen_t i = 0; i < ncol; i++) {
@@ -70,8 +71,11 @@ SEXP _ht (SEXP df, SEXP n) {
 
 	Rprintf("\n");
 
-	head(df, &nn, &ncol);
+	int begin = 0;
+	head(df, &begin, &nn, (int*)&ncol);
+
 	prt_hspace(&nrowlen);
+
 	for (R_xlen_t i = 0; i < ncol; i++) {
 		for (int j = 0; j < 8; j++) {
 			Rprintf("%s","-");
@@ -79,7 +83,9 @@ SEXP _ht (SEXP df, SEXP n) {
 		Rprintf(" ");
 	}
 	Rprintf("\n");
-	tail(df, &remain, &nrow, &ncol);
+
+	int remain = (int)nrow - nn;
+	tail(df, &remain, (int*)&nrow, (int*)&ncol);
 
 	Rprintf("\n");
 
