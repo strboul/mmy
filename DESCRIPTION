@@ -5,10 +5,7 @@ Description: Custom solutions.
 Authors@R: person("Metin", "Yazici", email = "stradivariusboul+r@gmail.com", role = c("aut", "cre"))
 License: file LICENSE
 Imports:
-    stats,
     shiny,
-    R6,
-    rstudioapi (>= 0.9.0),
     utils
 Suggests:
     testthat

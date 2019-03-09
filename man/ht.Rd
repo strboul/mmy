@@ -19,6 +19,9 @@ Head and tail of a data.frame
 Why creating such function? - I want to often glance on first and last rows
 of a \code{data.frame} in R in a quick way.
 
+The call cannot be assigned to any variable, and the result will be
+\code{NULL (empty)} if it is done it so.
+
 Why using \emph{R's C API} for such a simple function? - I saw this as an
 opportunity to start learning R internals.
 
