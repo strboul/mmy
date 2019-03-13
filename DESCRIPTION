@@ -7,8 +7,6 @@ License: file LICENSE
 Imports:
     shiny,
     utils
-Suggests:
-    testthat
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true

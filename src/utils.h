@@ -1,5 +1,5 @@
 
 // #include <stdio.h>
 
-int numlen(int val);
+int NumLen(int val);
 
