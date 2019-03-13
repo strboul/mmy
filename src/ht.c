@@ -2,46 +2,55 @@
 // Rf_xlength is for up to 64-bit unlike Rf_length which is 32-bit.
 #include "mmy.h"
 
-// get length of an integer
-// TODO move to utils.c
-int numlen(int *val){
-	int res = 0;
-	while(!(*val == 0)) {
-		*val /= 10;
-		res++;
-	}
-	return res;
-}
-
 void prt_hspace(int *len) { Rprintf("%*s", *len, ""); }
 
-void prt(SEXP df, int *init, int *num, int *ncol) {
+void prit(SEXP df, int *init, int *num, int *ncol) {
+
 	for (int j = *init; j < *num; j++) {
+
 		Rprintf("%i: ", j + 1);
+
+		int width = 5;
+
 		for (R_xlen_t i = 0; i < *ncol; i++) {
+
 			SEXP el = Rf_protect(VECTOR_ELT(df, i));
+
 			if (Rf_isReal(el)) {
-				Rprintf("%f ", REAL(el)[j]);
+
+				/* Rprintf("%f ", REAL(el)[j]); */
+
+				Rprintf("%*s%f ", width, "", REAL(el)[j]);
+
 			} else if (Rf_isInteger(el)) {
+
 				Rprintf("%d ", INTEGER(el)[j]);
+
 			} else if (Rf_isString(el)) {
+
 				Rprintf("%s ", CHAR(STRING_ELT(el, j)));
+
 			} else if (Rf_isFactor(el)) {
+
 				SEXP attr = Rf_protect(Rf_asCharacterFactor(el));
+
 				Rprintf("%s ", CHAR(STRING_ELT(attr, j)));
+
 				Rf_unprotect(1);
+
 			} else {
+
 				Rf_error("some error occured");
+
 			}
+
 			Rf_unprotect(1);
+
 		}
+
 		Rprintf("\n");
 	}
 }
-
-// TODO struct
-void head(SEXP df, int *init, int *num, int *ncol) { prt(df, init, num, ncol); }
-void tail(SEXP df, int *init, int *num, int *ncol) { prt(df, init, num, ncol); }
 
 void is_valid (SEXP df, SEXP n) {
 	if (!Rf_isFrame(df)) Rf_error("input must be a data.frame");
@@ -58,8 +67,7 @@ SEXP _ht (SEXP df, SEXP n) {
 	R_xlen_t ncol = Rf_xlength(df);
 
 	// print widths:
-	int nrowlen = numlen((int*)&nrow);
-	/* int ncollen =  */
+	int nrowlen = numlen((int)nrow);
 
 	// colnames:
 	SEXP names = Rf_protect(Rf_getAttrib(df, R_NamesSymbol));
@@ -72,7 +80,7 @@ SEXP _ht (SEXP df, SEXP n) {
 	Rprintf("\n");
 
 	int begin = 0;
-	head(df, &begin, &nn, (int*)&ncol);
+	prit(df, &begin, &nn, (int*)&ncol);
 
 	prt_hspace(&nrowlen);
 
@@ -85,7 +93,7 @@ SEXP _ht (SEXP df, SEXP n) {
 	Rprintf("\n");
 
 	int remain = (int)nrow - nn;
-	tail(df, &remain, (int*)&nrow, (int*)&ncol);
+	prit(df, &remain, (int*)&nrow, (int*)&ncol);
 
 	Rprintf("\n");
 

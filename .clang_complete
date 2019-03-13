@@ -1,0 +1,5 @@
+
+## for nvim clang_complete plugin: https://github.com/Rip-Rip/clang_complete
+
+-I /Library/Frameworks/R.framework/Resources/include # same as R> file.path(R.home(), "include")
+
