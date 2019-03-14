@@ -11,6 +11,7 @@ void prt_colnames(SEXP df, int *ncol, int *nrowlen) {
 		Rprintf("%s ", CHAR(STRING_ELT(names, i)));
 	}
 	Rf_unprotect(1);
+	Rprintf("\n");
 }
 
 void prt_dashes(int *ncol, int *ndash) {
@@ -84,27 +85,36 @@ SEXP _ht (SEXP df, SEXP n) {
 
 	is_valid(df, n);
 
-	int nn = Rf_asInteger(n);
-	R_xlen_t nrow = Rf_xlength(Rf_getAttrib(df, R_RowNamesSymbol));
-	R_xlen_t ncol = Rf_xlength(df);
+	struct Invariants {
+		int nn;
+		R_xlen_t nrow;
+		R_xlen_t ncol;
+		int nrowi;
+		int ncoli;
+		int nrowlen;
+		int Ndash;
+		int remain;
+	} dim;
 
-	// print widths:
-	int nrowlen = NumLen(nrow);
+	dim.nn = Rf_asInteger(n);
+	dim.nrow = Rf_xlength(Rf_getAttrib(df, R_RowNamesSymbol));
+	dim.ncol = Rf_xlength(df);
+	dim.nrowi = (int)dim.nrow;
+	dim.ncoli = (int)dim.ncol;
+	dim.nrowlen = NumLen(dim.nrow);
+	dim.Ndash = 8;
+	dim.remain = dim.nrowi - dim.nn;
 
-	prt_colnames(df, (int*)&ncol, (int*)&nrowlen);
-
-	Rprintf("\n");
+	prt_colnames(df, &dim.ncoli, &dim.nrowlen);
 
 	int begin = 0;
-	prit(df, &begin, &nn, (int*)&ncol);
+	prit(df, &begin, &dim.nn, &dim.ncoli);
 
-	prt_hspace(&nrowlen);
+	prt_hspace(&dim.nrowlen);
 
-	int Ndash = 8;
-	prt_dashes((int*)&ncol, &Ndash);
+	prt_dashes(&dim.ncoli, &dim.Ndash);
 
-	int remain = (int)nrow - nn;
-	prit(df, &remain, (int*)&nrow, (int*)&ncol);
+	prit(df, &dim.remain, &dim.nrowi, &dim.ncoli);
 
 	return R_NilValue;
 }
