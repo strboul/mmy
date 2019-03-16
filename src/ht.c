@@ -5,12 +5,12 @@
 void prt_hspace(int *len) { Rprintf("%*s", *len, ""); }
 
 void prt_colnames(SEXP df, int *ncol, int *nrowlen) {
-	SEXP names = Rf_protect(Rf_getAttrib(df, R_NamesSymbol));
+	SEXP names = PROTECT(Rf_getAttrib(df, R_NamesSymbol));
 	prt_hspace(nrowlen);
 	for (R_xlen_t i = 0; i < *ncol; i++) {
 		Rprintf("%s ", CHAR(STRING_ELT(names, i)));
 	}
-	Rf_unprotect(1);
+	UNPROTECT(1);
 	Rprintf("\n");
 }
 
@@ -34,7 +34,7 @@ void prit(SEXP df, int *init, int *num, int *ncol) {
 
 		for (R_xlen_t i = 0; i < *ncol; i++) {
 
-			SEXP el = Rf_protect(VECTOR_ELT(df, i));
+			SEXP el = PROTECT(VECTOR_ELT(df, i));
 
 			if (Rf_isReal(el)) {
 
@@ -52,11 +52,11 @@ void prit(SEXP df, int *init, int *num, int *ncol) {
 
 			} else if (Rf_isFactor(el)) {
 
-				SEXP attr = Rf_protect(Rf_asCharacterFactor(el));
+				SEXP attr = PROTECT(Rf_asCharacterFactor(el));
 
 				Rprintf("%s ", CHAR(STRING_ELT(attr, j)));
 
-				Rf_unprotect(1);
+				UNPROTECT(1);
 
 			} else {
 
@@ -64,7 +64,7 @@ void prit(SEXP df, int *init, int *num, int *ncol) {
 
 			}
 
-			Rf_unprotect(1);
+			UNPROTECT(1);
 
 		}
 
