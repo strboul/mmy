@@ -1,5 +1,6 @@
 
 // #include <stdio.h>
 
-int NumLen(int val);
+int nint(int *val);
+int maxima(int *x, int *size);
 

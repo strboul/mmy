@@ -30,8 +30,6 @@ void prit(SEXP df, int *init, int *num, int *ncol) {
 
 		Rprintf("%i: ", j + 1);
 
-		int width = 5;
-
 		for (R_xlen_t i = 0; i < *ncol; i++) {
 
 			SEXP el = PROTECT(VECTOR_ELT(df, i));
@@ -40,7 +38,7 @@ void prit(SEXP df, int *init, int *num, int *ncol) {
 
 				/* Rprintf("%f ", REAL(el)[j]); */
 
-				Rprintf("%*s%f ", width, "", REAL(el)[j]);
+				Rprintf("%*s%f ", 5, "", REAL(el)[j]);
 
 			} else if (Rf_isInteger(el)) {
 
@@ -59,17 +57,82 @@ void prit(SEXP df, int *init, int *num, int *ncol) {
 				UNPROTECT(1);
 
 			} else {
-
-				Rf_error("some error occured");
-
+				Rf_error("unknown column type");
 			}
-
 			UNPROTECT(1);
-
 		}
 
 		Rprintf("\n");
 	}
+}
+
+int * find_max_per_col(SEXP df, int *inds, int ncol) {
+
+	int *maxs;
+	maxs = (int *) malloc(sizeof(int) * ncol);
+
+	int l_inds = sizeof(inds) / sizeof(inds[0]);
+
+	SEXP colnames = PROTECT(Rf_getAttrib(df, R_NamesSymbol));
+
+	// rows:
+	for (R_xlen_t i = 0; i < ncol; i++) {
+		SEXP col = PROTECT(VECTOR_ELT(df, i));
+		int *cont;
+		cont = (int *) malloc(sizeof(int) * l_inds);
+		if (Rf_isReal(col)) {
+			double *px = REAL(col);
+			for (int k = 0; k < l_inds; k++) {
+				int ki = *(inds+k);
+				cont[i] = px[ki];
+			}
+		} else if (Rf_isInteger(col)) {
+			
+		} else if (Rf_isString(col)) {
+
+		} else if (Rf_isFactor(col)) {
+			
+		} else {
+			Rf_error("unknown column type");
+		}
+
+		// find maximum columns:
+		int max_col = maxima(cont, &l_inds);
+		free(cont);
+		
+		// column names:
+		const char * colname = CHAR(STRING_ELT(colnames, i));
+		int l_colname = strlen(colname);
+		//Rprintf("max_colname: %i\n", l_colname);
+
+		// get the higher one for maximum:
+		if (max_col > l_colname) {
+			maxs[i] = max_col;
+		} else {
+			maxs[i] = l_colname;
+		}
+
+		UNPROTECT(1);
+	}
+
+	return maxs;
+}
+
+int * find_indices(int nn, int nrow) {
+	int dnn = nn * 2;
+    int *arr;
+	arr = (int *) malloc(sizeof(int) * dnn);
+	int remain = nrow - nn + 1;
+	int i, j;
+	for(i = 0, j = remain; i < dnn; i++) {
+		if (i < nn) {
+			arr[i] = i+1;
+		} else {
+			arr[i] = j;
+			j = j + 1;
+		}
+	}
+	return arr;
 }
 
 void is_valid (SEXP df, SEXP n) {
@@ -85,36 +148,44 @@ SEXP _ht (SEXP df, SEXP n) {
 
 	is_valid(df, n);
 
-	struct Invariants {
-		int nn;
-		R_xlen_t nrow;
-		R_xlen_t ncol;
-		int nrowi;
-		int ncoli;
-		int nrowlen;
-		int Ndash;
-		int remain;
-	} dim;
+	// const vars:
+	const int nn = Rf_asInteger(n);
+	const R_xlen_t nrow = Rf_xlength(Rf_getAttrib(df, R_RowNamesSymbol));
+	const R_xlen_t ncol = Rf_xlength(df);
 
-	dim.nn = Rf_asInteger(n);
-	dim.nrow = Rf_xlength(Rf_getAttrib(df, R_RowNamesSymbol));
-	dim.ncol = Rf_xlength(df);
-	dim.nrowi = (int)dim.nrow;
-	dim.ncoli = (int)dim.ncol;
-	dim.nrowlen = NumLen(dim.nrow);
-	dim.Ndash = 8;
-	dim.remain = dim.nrowi - dim.nn;
+	// start :
+	// int nrowlen = nint((int*)&nrow);
 
-	prt_colnames(df, &dim.ncoli, &dim.nrowlen);
+	int *indices;
+	indices = find_indices(nn, nrow);
+
+	int *max_length;
+	max_length = find_max_per_col(df, indices, (int)ncol);
+
+	/* prt_colnames(df, &dim.ncoli, &dim.nrowlen);
 
 	int begin = 0;
 	prit(df, &begin, &dim.nn, &dim.ncoli);
 
 	prt_hspace(&dim.nrowlen);
 
+	int Ndash = 8;
 	prt_dashes(&dim.ncoli, &dim.Ndash);
 
-	prit(df, &dim.remain, &dim.nrowi, &dim.ncoli);
+	prit(df, &dim.remain, &dim.nrowi, &dim.ncoli); */
 
+	/* for(int i = 0; i < ncol; i++) {
+		Rprintf("max rows: %i\n", max_length[i]);
+	} */
+
+	for(int i = 0; i < ncol; i++)
+	{
+		Rprintf("max_length: %i\n", max_length[i]);
+	}
+	
+
+	free(max_length);
+
+	free(indices);
 	return R_NilValue;
 }
