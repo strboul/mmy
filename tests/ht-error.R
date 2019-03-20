@@ -10,3 +10,6 @@ is_error(ht(list(x = seq(10))))
 is_error(ht(c(iris, mtcars)))
 is_error(ht(iris, "A"))
 is_error(ht(iris, c("A", "B")))
+
+### memory tests:
+multiple_expect(mmy::ht(iris, 2))
