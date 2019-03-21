@@ -1,2 +1,0 @@
-## for debug builds..
-PKG_CFLAGS=-O3 -g0
