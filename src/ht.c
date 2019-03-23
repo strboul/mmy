@@ -15,9 +15,13 @@ void prt_colnames(SEXP df, int ncol, int nrow) {
 	UNPROTECT(1);
 }
 
-void prt_dashes(int *ncol, int *ndash) {
-	for (R_xlen_t i = 0; i < *ncol; i++) {
-		for (int j = 0; j < *ndash; j++) {
+/* print dashes same as the number of max chars */
+void prt_dashes(R_xlen_t ncol, int *row_max_length) {
+	int max_len, width;
+	for (R_xlen_t i = 0; i < ncol; i++) {
+		max_len = row_max_length[i];
+		width = max_len;
+		for (int j = 0; j < width; j++) {
 			Rprintf("%s","-");
 		}
 		Rprintf(" ");
@@ -25,44 +29,42 @@ void prt_dashes(int *ncol, int *ndash) {
 	Rprintf("\n");
 }
 
-void prit(SEXP df, int *init, int *num, int *ncol) {
+void prit(SEXP df, R_xlen_t start, int end, R_xlen_t ncol, int *row_max_length) {
 
-	for (int j = *init; j < *num; j++) {
+	int j;
+	for (j = start; j < end; j++) {
 
 		Rprintf("%i: ", j + 1);
 
-		for (R_xlen_t i = 0; i < *ncol; i++) {
+		for (R_xlen_t i = 0; i < ncol; i++) {
 
 			SEXP el = PROTECT(VECTOR_ELT(df, i));
-
+			int max_len, width;
+			max_len = row_max_length[i];
+			char str[100];
 			if (Rf_isReal(el)) {
-
-				/* Rprintf("%f ", REAL(el)[j]); */
-
-				Rprintf("%*s.9g\n", 5, "", REAL(el)[j]);
-
+				sprintf(str, "%.1f", REAL(el)[j]);
+				width = max_len - nchar(str);
 			} else if (Rf_isInteger(el)) {
-
-				Rprintf("%d ", INTEGER(el)[j]);
-
+				sprintf(str, "%i", INTEGER(el)[j]);
+				width = max_len - nchar(str);
 			} else if (Rf_isString(el)) {
-
-				Rprintf("%s ", CHAR(STRING_ELT(el, j)));
-
+				sprintf(str, "%s", CHAR(STRING_ELT(el, j)));
+				width = max_len - nchar(str);
 			} else if (Rf_isFactor(el)) {
-
 				SEXP attr = PROTECT(Rf_asCharacterFactor(el));
-
-				Rprintf("%s ", CHAR(STRING_ELT(attr, j)));
-
+				sprintf(str, "%s", CHAR(STRING_ELT(attr, j)));
+				width = max_len - nchar(str);
 				UNPROTECT(1);
-
+			} else if (Rf_isLogical(el)) {
+				// TODO
+				Rprintf("%i ", LOGICAL(el)[j]);
 			} else {
 				Rf_error("unknown column type");
 			}
+			Rprintf("%*s%s ", width, "", str);
 			UNPROTECT(1);
 		}
-
 		Rprintf("\n");
 	}
 }
@@ -186,23 +188,19 @@ SEXP _ht (SEXP df, SEXP n) {
 	prt_colnames(df, ncol, nrow);
 
 	/* head: */
-	int begin = 0;
-	prt_ht(df, indices, nn, ncol, max_length);
+	R_xlen_t begin = 0;
+	prit(df, begin, nn, ncol, max_length);
 
-	prt_hspace(&dim.nrowlen);
+	/* print dashes */
+	int len_nrow, intnrow;
+	intnrow = (int)nrow;
+	len_nrow = nint(&intnrow);
+	prt_hspace(len_nrow);
+	prt_dashes(ncol, max_length);
 
-	int Ndash = 8;
-	prt_dashes(&dim.ncoli, &dim.Ndash);
-
-	prit(df, &dim.remain, &dim.nrowi, &dim.ncoli); */
-
-	/* for(int i = 0; i < ncol; i++) {
-		Rprintf("max rows: %i\n", max_length[i]);
-	} */
-
-	// for(int i = 0; i < ncol; i++) {
-	// 	Rprintf("max_length: %i\n", max_length[i]);
-	// }
+	/* tail: */
+	R_xlen_t remain = nrow - (R_xlen_t)nn;
+	prit(df, remain, nrow, ncol, max_length);
 
 	return R_NilValue;
 }
