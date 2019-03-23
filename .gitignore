@@ -12,6 +12,7 @@ vignettes/*.pdf
 *.swp
 .Rproj.user
 *.Rproj
+.vscode/
 src/*.o
 src/*.so
 src/*.dll
