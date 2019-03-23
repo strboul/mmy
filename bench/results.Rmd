@@ -3,8 +3,8 @@ title: "results"
 output: md_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, echo=FALSE, warning=TRUE}
+mmy:::.warn_debug_makevars_flags()
 require(mmy, quietly = TRUE)
 ```
 
@@ -27,9 +27,8 @@ str(df)
 
 ## ht
 
-Seems not so *fast* (at the moment). However, having an heavily optimized head & tail call isn't the primary goal here.
 ```{r}
-system.time(mmy::ht(df))
+system.time(mmy::ht(df, 5))
 ```
 
 ---
