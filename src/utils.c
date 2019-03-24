@@ -2,10 +2,10 @@
 #include "utils.h"
 
 /* get length of an integer */
-int nint(int *x){
+int nint(int x){
 	int res = 0;
-	while(!(*x == 0)) {
-		*x /= 10;
+	while(!(x == 0)) {
+		x /= 10;
 		res++;
 	}
 	return res;

@@ -4,12 +4,15 @@
 
 void prt_hspace(int len) { Rprintf("%*s", len, ""); }
 
-void prt_colnames(SEXP df, int ncol, int nrow) {
+void prt_colnames(SEXP df, R_xlen_t ncol, R_xlen_t nrow) {
 	SEXP names = PROTECT(Rf_getAttrib(df, R_NamesSymbol));
-	int nrowlen = nint(&nrow);
-	prt_hspace(nrowlen);
+	int nrowlen = nint((int)nrow);
+	prt_hspace(nrowlen + 1);
+
+	int padding;
 	for (R_xlen_t i = 0; i < ncol; i++) {
-		Rprintf("%s ", CHAR(STRING_ELT(names, i)));
+		padding = (i == ncol - 1) ? 0 : 1;
+		Rprintf("%s%*s", CHAR(STRING_ELT(names, i)), padding, "");
 	}
 	Rprintf("\n");
 	UNPROTECT(1);
@@ -29,15 +32,17 @@ void prt_dashes(R_xlen_t ncol, int *row_max_length) {
 	Rprintf("\n");
 }
 
-void prit(SEXP df, R_xlen_t start, int end, R_xlen_t ncol, int *row_max_length) {
+void prit(SEXP df, int start, int end, R_xlen_t ncol, int len_nrow, int *row_max_length) {
 
-	int j;
+	R_xlen_t j;
 	for (j = start; j < end; j++) {
 
-		Rprintf("%i: ", j + 1);
+		/* print row indices */
+		int indlen = nint((int)j+1);
+		int ind_width = len_nrow - indlen;
+		Rprintf("%*s%i: ", ind_width, "", j + 1);
 
 		for (R_xlen_t i = 0; i < ncol; i++) {
-
 			SEXP el = PROTECT(VECTOR_ELT(df, i));
 			int max_len, width;
 			max_len = row_max_length[i];
@@ -74,7 +79,7 @@ int * find_max_per_col(SEXP df, int *inds, int nn, R_xlen_t ncol) {
 	int l_inds = nn * 2;
 
 	int *maxs;
-	maxs = (int *) R_alloc(ncol, sizeof(int));
+	maxs = (int *) R_alloc(ncol, sizeof(R_xlen_t));
 
 	for (R_xlen_t i = 0; i < ncol; i++) {
 
@@ -179,6 +184,9 @@ SEXP _ht (SEXP df, SEXP n) {
 	const R_xlen_t nrow = Rf_xlength(Rf_getAttrib(df, R_RowNamesSymbol));
 	const R_xlen_t ncol = Rf_xlength(df);
 
+	int len_nrow;
+	len_nrow = nint((int)nrow);
+
 	int *indices;
 	indices = find_indices(nn, nrow);
 
@@ -188,19 +196,16 @@ SEXP _ht (SEXP df, SEXP n) {
 	prt_colnames(df, ncol, nrow);
 
 	/* head: */
-	R_xlen_t begin = 0;
-	prit(df, begin, nn, ncol, max_length);
+	int begin = 0;
+	prit(df, begin, nn, ncol, len_nrow, max_length);
 
 	/* print dashes */
-	int len_nrow, intnrow;
-	intnrow = (int)nrow;
-	len_nrow = nint(&intnrow);
-	prt_hspace(len_nrow);
+	prt_hspace(len_nrow+1);
 	prt_dashes(ncol, max_length);
 
 	/* tail: */
-	R_xlen_t remain = nrow - (R_xlen_t)nn;
-	prit(df, remain, nrow, ncol, max_length);
+	int remain = (int)nrow - nn;
+	prit(df, remain, nrow, ncol, len_nrow, max_length);
 
 	return R_NilValue;
 }
