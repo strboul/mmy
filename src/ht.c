@@ -134,7 +134,13 @@ int * find_max_per_col(SEXP df, int *inds, int nn, R_xlen_t ncol) {
 	return maxs;
 }
 
-/* finds indices started on R index level */
+/*
+ * Finds indices started on R index level 
+ * 
+ * A side note: The memory allocated with R_alloc does not have to be 
+ * freed at the end as "R will reclaim the memory at the end of the 
+ * call"
+ */
 int * find_indices(int nn, int nrow) {
 	int dnn = nn * 2;
 	int *arr;
