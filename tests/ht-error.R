@@ -11,5 +11,9 @@ is_error(ht(c(iris, mtcars)))
 is_error(ht(iris, "A"))
 is_error(ht(iris, c("A", "B")))
 
-### memory tests:
-multiple_expect(mmy::ht(iris, 2))
+### Memory tests:
+### I'd rather run those time-consuming tests on a different process or a CI
+### platform rather than an interactive process that might be in other use.
+if (!interactive()) {
+  multiple_expect(mmy::ht(iris), n = 10, use.gctorture = TRUE)  
+}

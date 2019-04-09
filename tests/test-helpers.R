@@ -8,13 +8,38 @@ is_error <- function(call) {
 
 #' Multiple expect
 #' 
+#' @param x.call a valid R call.
+#' @param n number of times.
+#' @param use.gctorture \code{\link{gctorture}} calls \code{\link{gc}} after every allocation.
+#' 
+#' @details
 #' Memory-wise, C code can be called multiple times to check if any garbage
 #' values are returned.
-multiple_expect <- function(call, n = 5) {
+#' 
+#' \code{\link{gctorture}} makes R hundred times slower. Consider choosing sane
+#' values for \code{n} when \code{use.gctorture} is \code{TRUE}.
+#' 
+#' @examples \dontrun{
+#' multiple_expect(cat('hi'), n = 5)
+#' ## Below will give error when there's no seed set.
+#' multiple_expect(rnorm(5), n = 5, use.gctorture = FALSE)
+#' }
+#' 
+#' @noRd
+multiple_expect <- function(x.call, n = 5, use.gctorture = TRUE) {
+  
+  stopifnot(is.numeric(n))
+  
+  if (use.gctorture) {
+    gctorture(TRUE)
+    on.exit(gctorture(FALSE))
+  }
+  
+  dx.call <- deparse(substitute(x.call))
   
   Actuals <- list()
   for (i in seq(n)) {
-    Actuals[[i]] <- capture.output(dput(call))
+    Actuals[[i]] <- capture.output(eval(parse(text = dx.call)))
   }
   
   # compare all:
@@ -23,9 +48,16 @@ multiple_expect <- function(call, n = 5) {
       tryCatch({
         stopifnot(identical(Actuals[[i]], Actuals[[j]]))
       }, error = function(e) {
-        stop(paste(i, j, "not identical"))
+        stop(paste(
+          "multiple calls are not identical",
+          paste(Actuals[[i]], Actuals[[j]], sep = "\n"),
+          sep = "\n"
+        ),
+        call. = FALSE)
       })
     }
   }
   
+  ## if everything goes well, return TRUE invisibly:
+  invisible(TRUE)
 }
