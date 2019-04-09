@@ -1,6 +1,5 @@
 
-// Rf_xlength is for up to 64-bit unlike Rf_length which is 32-bit.
-#include "mmy.h"
+#include "ht.h"
 
 void prt_hspace(int len) { Rprintf("%*s", len, ""); }
 
@@ -46,19 +45,19 @@ void prit(SEXP df, int start, int end, R_xlen_t ncol, int len_nrow, int *row_max
 			SEXP el = PROTECT(VECTOR_ELT(df, i));
 			int max_len, width;
 			max_len = row_max_length[i];
-			char str[100];
+			char str[MAX_ROW_SIZE];
 			if (Rf_isReal(el)) {
-				sprintf(str, "%.1f", REAL(el)[j]);
+				snprintf(str, MAX_ROW_SIZE, "%.1f", REAL(el)[j]);
 				width = max_len - nchar(str);
 			} else if (Rf_isInteger(el)) {
-				sprintf(str, "%i", INTEGER(el)[j]);
+				snprintf(str, MAX_ROW_SIZE, "%i", INTEGER(el)[j]);
 				width = max_len - nchar(str);
 			} else if (Rf_isString(el)) {
-				sprintf(str, "%s", CHAR(STRING_ELT(el, j)));
+				snprintf(str, MAX_ROW_SIZE, "%s", CHAR(STRING_ELT(el, j)));
 				width = max_len - nchar(str);
 			} else if (Rf_isFactor(el)) {
 				SEXP attr = PROTECT(Rf_asCharacterFactor(el));
-				sprintf(str, "%s", CHAR(STRING_ELT(attr, j)));
+				snprintf(str, MAX_ROW_SIZE, "%s", CHAR(STRING_ELT(attr, j)));
 				width = max_len - nchar(str);
 				UNPROTECT(1);
 			} else if (Rf_isLogical(el)) {
@@ -88,48 +87,35 @@ int * find_max_per_col(SEXP df, int *inds, int nn, R_xlen_t ncol) {
 		int *ptr;
 		ptr = (int *) R_alloc(l_inds, sizeof(int));
 
-		char str[100];
-		if (Rf_isReal(col)) {
-			double *px;
-			px = REAL(col);
-			for (int k = 0; k < l_inds; k++) {
-				int ki = inds[k] - 1;
-				sprintf(str, "%.1f", px[ki]);
-				ptr[k] = nchar(str);
-			}
-		} else if (Rf_isInteger(col)) {
-			int *px;
-			px = INTEGER(col);
-			for (int k = 0; k < l_inds; k++) {
-				int ki = inds[k] - 1;
-				sprintf(str, "%i", px[ki]);
-				ptr[k] = nchar(str);
-			}
-		} else if (Rf_isString(col)) {
-			for (int k = 0; k < l_inds; k++) {
-				int ki = inds[k] - 1;
-				sprintf(str, "%s", CHAR(STRING_ELT(col, ki)));
-				ptr[k] = nchar(str);
-			}
-		} else if (Rf_isFactor(col)) {
-			SEXP attr = PROTECT(Rf_asCharacterFactor(col));
-			for (int k = 0; k < l_inds; k++) {
-				int ki = inds[k] - 1;
-				sprintf(str, "%s", CHAR(STRING_ELT(attr, ki)));
-				ptr[k] = nchar(str);
-			}
-			UNPROTECT(1);
-		} else if (Rf_isLogical(col)) {
-			int *px;
-			px = LOGICAL(col);
-			for (int k = 0; k < l_inds; k++) {
+		char str[MAX_ROW_SIZE];
+		for (int k = 0; k < l_inds; k++) {
+			int ki = inds[k] - 1;
+			if (Rf_isReal(col)) {
+				double *px;
+				px = REAL(col);
+				snprintf(str, MAX_ROW_SIZE, "%.1f", px[ki]);	
+			} else if (Rf_isInteger(col)) {
+				int *px;
+				px = INTEGER(col);
+				snprintf(str, MAX_ROW_SIZE, "%i", px[ki]);
+			} else if (Rf_isString(col)) {
+				snprintf(str, MAX_ROW_SIZE, "%s", CHAR(STRING_ELT(col, ki)));
+			} else if (Rf_isFactor(col)) {
+				SEXP attr = PROTECT(Rf_asCharacterFactor(col));
+				snprintf(str, MAX_ROW_SIZE, "%s", CHAR(STRING_ELT(attr, ki)));
+				UNPROTECT(1);
+			} else if (Rf_isLogical(col)) {
+				int *px;
+				px = LOGICAL(col);
 				// TODO error: what about NA values?
-				char *s = (px[k] == 1) ? "TRUE" : "FALSE";
-				ptr[k] = nchar(s);
+				char *str = (px[k] == 1) ? "TRUE" : "FALSE";
+			} else {
+				Rf_error("unknown column type");
 			}
-		} else {
-			Rf_error("unknown column type");
+			/* assign it to pointer: */
+			ptr[k] = nchar(str);
 		}
+
 		int max_col = int_maxima(ptr, &l_inds);
 
 		/* column names: */
