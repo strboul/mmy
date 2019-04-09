@@ -20,6 +20,7 @@ is_error <- function(call) {
 #' values for \code{n} when \code{use.gctorture} is \code{TRUE}.
 #' 
 #' @examples \dontrun{
+#' ## this silently passes!
 #' multiple_expect(cat('hi'), n = 5)
 #' ## Below will give error when there's no seed set.
 #' multiple_expect(rnorm(5), n = 5, use.gctorture = FALSE)
