@@ -2,9 +2,9 @@
 % Please edit documentation in R/environment.R
 \name{get_environment}
 \alias{get_environment}
-\title{Get environment variables inside a call}
+\title{List objects in stack frame}
 \usage{
-get_environment(which = 1L, exclude = NA_character_)
+get_environment(which = 1, exclude = NULL)
 }
 \arguments{
 \item{which}{integer. the frame number in the call stack.}
@@ -13,6 +13,18 @@ get_environment(which = 1L, exclude = NA_character_)
 to exclude some variables by name.}
 }
 \description{
+Useful for debugging sessions.
+}
+\details{
 Returns all variables in a call environment. Made it possible with
 \code{sys.frames()}, which accesses to the environments in the call stack.
+}
+\examples{
+\dontrun{ 
+e <- function() {x<-"A";y<-rnorm(5);get_environment()};e()
+## inline functions:
+ei <- function() {x<-"A";y<-rnorm(5); function() {get_environment(2)}}
+ei()
+}
+
 }
