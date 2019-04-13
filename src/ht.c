@@ -137,18 +137,20 @@ int * find_max_per_col(SEXP df, int *inds, int nn, R_xlen_t ncol) {
 /*
  * Finds indices started on R index level 
  * 
- * A side note: The memory allocated with R_alloc does not have to be 
- * freed at the end as "R will reclaim the memory at the end of the 
- * call"
+ * @param nElt number of elements.
+ * @param length total length.
  */
-int * find_indices(int nn, int nrow) {
-	int dnn = nn * 2;
+int * find_indices(int nElt, int length) {
+	int dnn = nElt * 2;
+	/* A side note: The memory allocated with R_alloc does not have to be 
+ 	freed at the end as "R will reclaim the memory at the end of the 
+ 	call" */
 	int *arr;
 	arr = (int *) R_alloc(dnn, sizeof(int));
-	int remain = nrow - nn + 1;
+	int remain = length - nElt + 1;
 	int i, j;
 	for(i = 0, j = remain; i < dnn; i++) {
-		if (i < nn) {
+		if (i < nElt) {
 			arr[i] = i + 1;
 		} else {
 			arr[i] = j;
@@ -158,7 +160,7 @@ int * find_indices(int nn, int nrow) {
 	return arr;
 }
 
-void is_valid (SEXP df, SEXP n) {
+void is_valid_df (SEXP df, SEXP n) {
 	if (!Rf_isFrame(df))
 		Rf_error("input must be a data.frame");
 	if (!(Rf_xlength(n) == 1))
@@ -167,9 +169,9 @@ void is_valid (SEXP df, SEXP n) {
 		Rf_error("n isn't numeric");
 }
 
-SEXP _ht (SEXP df, SEXP n) {
+SEXP _ht_df (SEXP df, SEXP n) {
 
-	is_valid(df, n);
+	is_valid_df(df, n);
 
 	/* set const vars: */
 	const int nn = Rf_asInteger(n);
