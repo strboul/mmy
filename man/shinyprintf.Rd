@@ -4,21 +4,38 @@
 \alias{shinyprintf}
 \title{Shiny "printf" style tracing for debugging purposes}
 \usage{
-shinyprintf(x, text = NULL, con = c("stdout", "stderr"))
+shinyprintf(x, text = NULL, con = "stdout")
 }
 \arguments{
-\item{x}{variable.}
+\item{x}{variable (static or reactive). See Details.}
 
-\item{text}{character. (\emph{optional}) description added to the variable
-name. if empty, the default value is \code{NULL} therefore only the variable
-name will be used.}
+\item{text}{character. (\emph{optional}) description added to the variable name.
+if empty, the default value is \code{NULL} therefore only the variable name will
+be used.}
 
-\item{con}{character. pipe connection. default is \code{stdout}.}
+\item{con}{character. Pipe connection. The options are \code{stdout},
+\code{stderr} or an absolute or a relative path. Default is \code{stdout}.}
 }
 \description{
 Put it inside the \code{shiny::observe} in case of reactive values are run.
+Timestamp displaying date and time is prepended to log messages.
+Other than debugging purposes, it can also be used as a logger when
+re-directed to a file. However, the performance is not tested.
+}
+\details{
 Recommended to add the following snippet as \strong{shinyprinf}:
 \code{observe(mmy::shinyprintf(${1:var}, text = NULL))}.
+
+
+See Shiny's Reactivity to understand what a "reactive variable" is.
+}
+\examples{
+\dontrun{
+x <- 1L
+shinyprintf(x, "test")
+## Persistent logging to a file:
+shinyprintf("test", con = file.path(getwd(), "file.log"))
+}
 }
 \references{
 \url{https://shiny.rstudio.com/articles/debugging.html}
