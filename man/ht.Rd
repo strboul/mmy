@@ -2,9 +2,18 @@
 % Please edit documentation in R/ht.R
 \name{ht}
 \alias{ht}
-\title{Head and tail of an object}
+\alias{ht.data.frame}
+\alias{ht.default}
+\alias{ht.list}
+\title{Glance first and last rows}
 \usage{
-ht(x, n = 5)
+ht(x, ...)
+
+\method{ht}{data.frame}(x, n = 5)
+
+\method{ht}{default}(x, n = 5)
+
+\method{ht}{list}(x)
 }
 \arguments{
 \item{x}{a \code{data.frame}}
@@ -13,8 +22,7 @@ ht(x, n = 5)
 printed. The default value is \code{5}.}
 }
 \description{
-Glance on first and last rows of an object
-in R super quickly.
+Glance first and last rows
 }
 \details{
 The objects containing class of \code{data.frame} will

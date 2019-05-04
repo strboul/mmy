@@ -1,9 +1,9 @@
 
 #include "ht.h"
 
-void prt_hspace(int len) { Rprintf("%*s", len, ""); }
+static void prt_hspace(int len) { Rprintf("%*s", len, ""); }
 
-void prt_colnames(SEXP df, R_xlen_t ncol, R_xlen_t nrow) {
+static void prt_colnames(SEXP df, R_xlen_t ncol, R_xlen_t nrow) {
 	SEXP names = PROTECT(Rf_getAttrib(df, R_NamesSymbol));
 	int nrowlen = nint((int)nrow);
 	prt_hspace(nrowlen + 1);
@@ -18,7 +18,7 @@ void prt_colnames(SEXP df, R_xlen_t ncol, R_xlen_t nrow) {
 }
 
 /* print dashes same as the number of max chars */
-void prt_dashes(R_xlen_t ncol, int *row_max_length) {
+static void prt_dashes(R_xlen_t ncol, int *row_max_length) {
 	int max_len, width;
 	for (R_xlen_t i = 0; i < ncol; i++) {
 		max_len = row_max_length[i];
@@ -31,7 +31,7 @@ void prt_dashes(R_xlen_t ncol, int *row_max_length) {
 	Rprintf("\n");
 }
 
-void prit(SEXP df, int start, int end, R_xlen_t ncol, int len_nrow, int *row_max_length) {
+static void prit(SEXP df, int start, int end, R_xlen_t ncol, int len_nrow, int *row_max_length) {
 
 	R_xlen_t j;
 	for (j = start; j < end; j++) {
@@ -160,7 +160,7 @@ int * find_indices(int nElt, int length) {
 	return arr;
 }
 
-void is_valid_df (SEXP df, SEXP n) {
+static void is_valid_df (SEXP df, SEXP n) {
 	if (!Rf_isFrame(df))
 		Rf_error("input must be a data.frame");
 	if (!(Rf_xlength(n) == 1))

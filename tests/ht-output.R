@@ -1,33 +1,33 @@
 
 ## copy iris data.frame:
-df <- iris
-df$Species <- as.factor(df$Species)
+DT <- iris
+DT$Species <- as.factor(DT$Species)
 ## create character column:
-df$charcol <- rep_len(LETTERS, nrow(df))
+DT$charcol <- rep_len(LETTERS, nrow(DT))
 ## create long factor column:
-df$factrcol <- sample(c("short", "long", "x", "y", "z"), nrow(df), replace=TRUE)
-df[1, "factrcol"] <- paste(letters, collapse = "")
-df$factrcol <- as.factor(df$factrcol)
+DT$factrcol <- sample(c("short", "long", "x", "y", "z"), nrow(DT), replace=TRUE)
+DT[1, "factrcol"] <- paste(letters, collapse = "")
+DT$factrcol <- as.factor(DT$factrcol)
 ## create double column (and add some integer-doubles e.g. 1.00000):
-df$doubcol <- runif(nrow(df))
-even_indices <- seq(2, nrow(df), 2)
-df[even_indices, "doubcol"] <- as.integer(runif(length(even_indices), max = 2, min = 0))
+DT$doubcol <- runif(nrow(DT))
+even_indices <- seq(2, nrow(DT), 2)
+DT[even_indices, "doubcol"] <- as.integer(runif(length(even_indices), max = 2, min = 0))
 ## create integer column:
-df$intcol <- as.integer(runif(nrow(df), max = 100, min = 0))
+DT$intcol <- as.integer(runif(nrow(DT), max = 100, min = 0))
 ## create logical column (appropriate):
-df$logicol <- rep_len(c(TRUE, FALSE), length.out = nrow(df))
+DT$logicol <- rep_len(c(TRUE, FALSE), length.out = nrow(DT))
 ## whole NA column:
-df$nacol <- NA
+DT$nacol <- NA
 
 ## -------- Special values --------
 ## make all second row from bottom NA:
-df[149,] <- NA
+DT[149,] <- NA
 
 ## control if columns are in correct class, dim etc.:
-stopifnot(identical(dim(df), c(150L, 11L)))
+stopifnot(identical(dim(DT), c(150L, 11L)))
 stopifnot(
   identical(
-    vapply(df, class, FUN.VALUE = character(1)),
+    vapply(DT, class, FUN.VALUE = character(1)),
     c(
       Sepal.Length = "numeric",
       Sepal.Width = "numeric",
@@ -44,6 +44,5 @@ stopifnot(
   )
 )
 
-mmy::ht(df, 2)
-
-# utils::head(df, 2)
+# TODO test output with utils::capture.output() and identical
+mmy::ht(DT, 2)
