@@ -13,7 +13,7 @@
 #' \code{NULL (empty)} if it is done it so.
 #'
 #' @export
-ht <- function(x, ...) {
+ht <- function(x, n = 5) {
 	UseMethod("ht", x)	
 }
 
@@ -41,10 +41,10 @@ ht.default <- function(x, n = 5) {
   invisible(NULL)
 }
 
-#' @importFrom utils capture.output
+#' @importFrom utils capture.output head
 #' @rdname ht
 #' @export
-ht.list <- function(x) {
-  cat(utils::capture.output(x), sep = "\n")
+ht.list <- function(x, n = 5) {
+  cat(utils::capture.output(utils::head(x, n)), sep = "\n")
 }
 

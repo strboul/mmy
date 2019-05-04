@@ -7,13 +7,13 @@
 \alias{ht.list}
 \title{Glance first and last rows}
 \usage{
-ht(x, ...)
+ht(x, n = 5)
 
 \method{ht}{data.frame}(x, n = 5)
 
 \method{ht}{default}(x, n = 5)
 
-\method{ht}{list}(x)
+\method{ht}{list}(x, n = 5)
 }
 \arguments{
 \item{x}{a \code{data.frame}}
