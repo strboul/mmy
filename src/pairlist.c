@@ -52,7 +52,7 @@ static Rboolean pairlist_is_pairlist(SEXP x) {
 
 static void stop_if_not_pairlist(SEXP x) {
     if (!pairlist_is_pairlist(x)) {
-        Rf_errorcall(R_NilValue, "not a pairlist");
+        Rf_errorcall(R_NilValue, "Internal error: not a pairlist");
     }
 }
 
@@ -70,6 +70,14 @@ SEXP p_push(SEXP x, SEXP val) {
 SEXP p_pop(SEXP x) {
     stop_if_not_pairlist(x);
     return CDR(x);
+}
+
+SEXP p_stack_top(SEXP x) {
+    return pairlist_first_element(x);
+}
+
+SEXP p_stack_bottom(SEXP x) {
+    return pairlist_last_element(x);
 }
 
 Rboolean p_is_stack_empty(SEXP x) {
@@ -92,6 +100,14 @@ SEXP p_dequeue(SEXP x) {
     stop_if_not_pairlist(x);
     SEXP rev = CDR(pairlist_reverse(x));
     return pairlist_reverse(rev);
+}
+
+SEXP p_queue_front(SEXP x) {
+    return pairlist_first_element(x);
+}
+
+SEXP p_queue_back(SEXP x) {
+    return pairlist_last_element(x);
 }
 
 Rboolean p_is_queue_empty(SEXP x) {

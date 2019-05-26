@@ -18,11 +18,15 @@
  * + p_stack_init
  * + p_push
  * + p_pop
+ * + p_stack_top
+ * + p_stack_bottom
  * + p_is_stack_empty
  * ### Queue ###
  * + p_queue_init
  * + p_enqueue
  * + p_dequeue
+ * + p_queue_front
+ * + p_queue_back
  * + p_is_queue_empty
  */
 
@@ -42,10 +46,14 @@ static void stop_if_not_pairlist(SEXP x);
 SEXP p_stack_init();
 SEXP p_push(SEXP x, SEXP val);
 SEXP p_pop(SEXP x);
+SEXP p_stack_top(SEXP x);
+SEXP p_stack_bottom(SEXP x);
 Rboolean p_is_stack_empty(SEXP x);
 
 /* QUEUE */
 SEXP p_queue_init();
 SEXP p_enqueue(SEXP x, SEXP val);
 SEXP p_dequeue(SEXP x);
+SEXP p_queue_front(SEXP x);
+SEXP p_queue_back(SEXP x);
 Rboolean p_is_queue_empty(SEXP x);
