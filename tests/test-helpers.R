@@ -64,5 +64,6 @@ multiple_expect <- function(x.call, n = 5, use.gctorture = TRUE) {
   invisible(TRUE)
 }
 
+# Is user Travis-CI?
 IS.TRAVIS <- ifelse(Sys.getenv("USER") == "travis", TRUE, FALSE)
 
