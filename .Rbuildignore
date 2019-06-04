@@ -1,3 +1,4 @@
+^appveyor\.yml$
 ^\.vscode$
 ^\.clang_complete$
 ^Makefile$
