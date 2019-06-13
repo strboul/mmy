@@ -1,8 +1,14 @@
 
 #include "sln.h"
 
+/*
+ * This recursive call has a tail call optimization.
+ * `parent` and `level` arguments are "accumulators" storing the intermeidate objects with the call.
+ */
 static void recur_list_names(SEXP node, int level, SEXP parent) {
 
+    // TODO dont forget to add R_CheckUserInterrupt somewhere below
+    
     SEXP _node = PROTECT(node); // copy node to overcome 'uninitialized variable' error.
 
     // recursively subset list unless level is 0:
