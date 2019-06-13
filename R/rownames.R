@@ -1,32 +1,35 @@
 
 #' Dealing with rownames
-#'
-#' @param x a \code{data.frame}.
+#' 
 #' @details
 #' \enumerate{
 #' \item \code{un_row_names} removes the row names of a data.frame.
 #' \item \code{std_row_names} standardizes row names. In other words, it removes them
 #' and attaches as a new column into a new \code{data.frame}.
 #' }
-#' @examples \dontrun{
-#' un_row_names(mtcars)
-#' }
-#' @name row_names
+#' @examples
+#' un_rownames(mtcars)
+#' std_rownames(mtcars)
+#' @name rownames
 NULL
 
-#' @rdname row_names
+#' @param x data.frame.
+#' @rdname rownames
 #' @export
-un_row_names <- function(x) {
+un_rownames <- function(x) {
   stopifnot(is.data.frame(x))
   rownames(x) <- NULL
   x
 }
 
-#' @rdname row_names
+#' @param x data.frame.
+#' @param rowname the column name for the rownames. Default value is \code{.rowname}.
+#' @rdname rownames
 #' @export
-std_row_names <- function(x) {
+std_rownames <- function(x, rowname = NULL) {
   stopifnot(is.data.frame(x))
-  x[["rowname"]] <- row.names(x)
-  x <- x[c("rowname", setdiff(names(x), "rowname"))]
-  un_row_names(x)
+  rowname.column.name <- if (is.null(rowname)) ".rowname" else as.character(rowname)
+  x[[rowname.column.name]] <- row.names(x)
+  x <- x[c(rowname.column.name, setdiff(names(x), rowname.column.name))]
+  un_rownames(x)
 }
