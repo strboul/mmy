@@ -4,18 +4,18 @@
 \alias{see_object_types}
 \title{See types of R objects}
 \usage{
-see_object_types(x)
+see_object_types(...)
 }
 \arguments{
-\item{x}{valid \R object(s).}
+\item{...}{valid \R object(s).}
 }
 \description{
 See types of R objects
 }
 \examples{
-see_object_types(list(1, "a"))
-see_object_types(list(1, 5L))
-see_object_types(list(as.name("mean")))
-see_object_types(list(`(`))
-see_object_types(list(`$`, 1L, `[[<-`))
+see_object_types(1, "a")
+see_object_types(1, 5L)
+see_object_types(as.name("mean"))
+see_object_types(`(`)
+see_object_types(`$`, 1L, `[[<-`)
 }

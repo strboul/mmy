@@ -36,19 +36,17 @@ get_environment <- function(which = 1, exclude = NULL) {
 
 #' See types of R objects
 #' 
-#' @param x valid \R object(s).
+#' @param ... valid \R object(s).
 #' 
 #' @examples 
-#' see_object_types(list(1, "a"))
-#' see_object_types(list(1, 5L))
-#' see_object_types(list(as.name("mean")))
-#' see_object_types(list(`(`))
-#' see_object_types(list(`$`, 1L, `[[<-`))
+#' see_object_types(1, "a")
+#' see_object_types(1, 5L)
+#' see_object_types(as.name("mean"))
+#' see_object_types(`(`)
+#' see_object_types(`$`, 1L, `[[<-`)
 #' @export
-see_object_types <- function(x) {
-  if (!(is.list(x) && !is.data.frame(x))) {
-    stop("x must be put in a list. see documentation examples for more info.")
-  }
+see_object_types <- function(...) {
+  x <- list(...)
   tbl <- do.call(rbind, lapply(seq_along(x), function(i) {
     xi <- x[[i]]
     data.frame(
