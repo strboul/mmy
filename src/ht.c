@@ -32,45 +32,53 @@ static void prt_dashes(R_xlen_t ncol, int *row_max_length) {
 }
 
 static void prit(SEXP df, int start, int end, R_xlen_t ncol, int len_nrow, int *row_max_length) {
+    R_xlen_t j;
+    for (j = start; j < end; j++) {
 
-	R_xlen_t j;
-	for (j = start; j < end; j++) {
+        /* print row indices */
+        int indlen = nint((int)j + 1);
+        int ind_width = len_nrow - indlen;
 
-		/* print row indices */
-		int indlen = nint((int)j+1);
-		int ind_width = len_nrow - indlen;
-		Rprintf("%*s%i: ", ind_width, "", j + 1);
+        Rprintf("%*s%i: ", ind_width, "", j + 1);
 
-		for (R_xlen_t i = 0; i < ncol; i++) {
-			SEXP el = PROTECT(VECTOR_ELT(df, i));
-			int max_len, width;
-			max_len = row_max_length[i];
-			char str[MAX_ROW_SIZE];
-			if (Rf_isReal(el)) {
-				snprintf(str, MAX_ROW_SIZE, "%.1f", REAL(el)[j]);
-				width = max_len - nchar(str);
-			} else if (Rf_isInteger(el)) {
-				snprintf(str, MAX_ROW_SIZE, "%i", INTEGER(el)[j]);
-				width = max_len - nchar(str);
-			} else if (Rf_isString(el)) {
-				snprintf(str, MAX_ROW_SIZE, "%s", CHAR(STRING_ELT(el, j)));
-				width = max_len - nchar(str);
-			} else if (Rf_isFactor(el)) {
-				SEXP attr = PROTECT(Rf_asCharacterFactor(el));
-				snprintf(str, MAX_ROW_SIZE, "%s", CHAR(STRING_ELT(attr, j)));
-				width = max_len - nchar(str);
-				UNPROTECT(1);
-			} else if (Rf_isLogical(el)) {
-				// TODO
-				Rprintf("%i ", LOGICAL(el)[j]);
-			} else {
-				Rf_error("unknown column type");
-			}
-			Rprintf("%*s%s ", width, "", str);
-			UNPROTECT(1);
-		}
-		Rprintf("\n");
-	}
+        for (R_xlen_t i = 0; i < ncol; i++) {
+            SEXP el = PROTECT(VECTOR_ELT(df, i));
+            int max_len, width;
+            max_len = row_max_length[i];
+            char str[MAX_ROW_SIZE];
+
+            switch (TYPEOF(el)) {
+                case LGLSXP: {
+                    // TODO
+                    Rprintf("%i ", LOGICAL(el)[j]);
+                } break;
+                case INTSXP: {
+                    if (Rf_isFactor(el)) {
+                        SEXP attr = PROTECT(Rf_asCharacterFactor(el));
+                        snprintf(str, MAX_ROW_SIZE, "%s", CHAR(STRING_ELT(attr, j)));
+                        width = max_len - nchar(str);
+                        UNPROTECT(1);
+                    } else {
+                        snprintf(str, MAX_ROW_SIZE, "%i", INTEGER(el)[j]);
+                        width = max_len - nchar(str);
+                    }
+                } break;
+                case REALSXP: {
+                    snprintf(str, MAX_ROW_SIZE, "%.1f", REAL(el)[j]);
+                    width = max_len - nchar(str);
+                } break;
+                case STRSXP: {
+                    snprintf(str, MAX_ROW_SIZE, "%s", CHAR(STRING_ELT(el, j)));
+                    width = max_len - nchar(str);
+                } break;
+                default:
+                    Rf_errorcall(R_NilValue, "Internal error: type is not supported");
+            }
+            Rprintf("%*s%s ", width, "", str);
+            UNPROTECT(1);
+        }
+        Rprintf("\n");
+    }
 }
 
 int * find_max_per_col(SEXP df, int *inds, int nn, R_xlen_t ncol) {
@@ -93,7 +101,7 @@ int * find_max_per_col(SEXP df, int *inds, int nn, R_xlen_t ncol) {
 			if (Rf_isReal(col)) {
 				double *px;
 				px = REAL(col);
-				snprintf(str, MAX_ROW_SIZE, "%.1f", px[ki]);	
+				snprintf(str, MAX_ROW_SIZE, "%.1f", px[ki]);
 			} else if (Rf_isInteger(col)) {
 				int *px;
 				px = INTEGER(col);
@@ -135,15 +143,15 @@ int * find_max_per_col(SEXP df, int *inds, int nn, R_xlen_t ncol) {
 }
 
 /*
- * Finds indices started on R index level 
- * 
+ * Finds indices started on R index level
+ *
  * @param nElt number of elements.
  * @param length total length.
  */
 int * find_indices(int nElt, int length) {
 	int dnn = nElt * 2;
-	/* A side note: The memory allocated with R_alloc does not have to be 
- 	freed at the end as "R will reclaim the memory at the end of the 
+	/* A side note: The memory allocated with R_alloc does not have to be
+ 	freed at the end as "R will reclaim the memory at the end of the
  	call" */
 	int *arr;
 	arr = (int *) R_alloc(dnn, sizeof(int));
