@@ -1,6 +1,8 @@
 
 #' Dealing with rownames
 #' 
+#' @param x data.frame.
+#' 
 #' @details
 #' \enumerate{
 #' \item \code{un_row_names} removes the row names of a data.frame.
@@ -13,7 +15,6 @@
 #' @name rownames
 NULL
 
-#' @param x data.frame.
 #' @rdname rownames
 #' @export
 un_rownames <- function(x) {
@@ -22,7 +23,6 @@ un_rownames <- function(x) {
   x
 }
 
-#' @param x data.frame.
 #' @param rowname the column name for the rownames. Default value is \code{.rowname}.
 #' @rdname rownames
 #' @export

@@ -14,8 +14,6 @@ std_rownames(x, rowname = NULL)
 \item{x}{data.frame.}
 
 \item{rowname}{the column name for the rownames. Default value is \code{.rowname}.}
-
-\item{x}{data.frame.}
 }
 \description{
 Dealing with rownames

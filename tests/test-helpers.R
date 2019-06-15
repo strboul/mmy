@@ -1,6 +1,4 @@
 
-library(rdrtests)
-
 test_suite <- function(section, ...) {
   if (!is.character(section) && length(section) == 1L) {
     stop("section must be a character")
