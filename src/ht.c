@@ -72,7 +72,7 @@ static void prit(SEXP df, int start, int end, R_xlen_t ncol, int len_nrow, int *
                     width = max_len - nchar(str);
                 } break;
                 default:
-                    Rf_errorcall(R_NilValue, "Internal error: type is not supported");
+                    Rf_errorcall(R_NilValue, "Internal error: type %s not supported", Rf_type2char(TYPEOF(el)));
             }
             Rprintf("%*s%s ", width, "", str);
             UNPROTECT(1);
