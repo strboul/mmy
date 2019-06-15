@@ -29,3 +29,65 @@ test_suite("machine_readable_name", {
   
 })
 
+test_suite("see_object_types", {
+  
+  is_equal(mmy::see_object_types(1, "a"),
+           structure(
+             list(
+               `__type__` = c("class", "typeof", "mode", "storage.mode"),
+               `__value_1__` = c("numeric", "double", "numeric", "double"),
+               `__value_2__` = c("character", "character", "character", "character")
+             ),
+             row.names = c(NA,-4L),
+             class = "data.frame"
+           ))
+  
+  is_equal(mmy::see_object_types(1, 5L),
+           structure(
+             list(
+               `__type__` = c("class", "typeof", "mode", "storage.mode"),
+               `__value_1__` = c("numeric", "double", "numeric", "double"),
+               `__value_2__` = c("integer", "integer", "numeric", "integer")
+             ),
+             row.names = c(NA,-4L),
+             class = "data.frame"
+           ))
+  
+  is_equal(
+    mmy::see_object_types(as.name("mean")),
+    structure(
+      list(
+        `__type__` = c("class", "typeof", "mode", "storage.mode"),
+        `__value__` = c("name", "symbol", "name", "symbol")
+      ),
+      row.names = c(NA,-4L),
+      class = "data.frame"
+    )
+  )
+  
+  is_equal(mmy::see_object_types(`(`),
+           structure(
+             list(
+               `__type__` = c("class", "typeof", "mode", "storage.mode"),
+               `__value__` = c("function", "builtin", "function", "function")
+             ),
+             row.names = c(NA,-4L),
+             class = "data.frame"
+           ))
+  
+  is_equal(
+    mmy::see_object_types(`$`, 1L, `[[<-`),
+    structure(
+      list(
+        `__type__` = c("class", "typeof", "mode", "storage.mode"),
+        `__value_1__` = c("function", "special", "function", "function"),
+        `__value_2__` = c("integer", "integer", "numeric", "integer"),
+        `__value_3__` = c("function", "special", "function", "function")
+      ),
+      row.names = c(NA,-4L),
+      class = "data.frame"
+    )
+  )
+  
+})
+
