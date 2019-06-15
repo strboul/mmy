@@ -50,13 +50,20 @@ see_object_types <- function(x) {
   tbl <- do.call(rbind, lapply(x, function(xi) {
     data.frame(
       class = class(xi),
-      mode = mode(xi),
       typeof = typeof(xi),
+      mode = mode(xi),
       storage.mode = storage.mode(xi),
       stringsAsFactors = FALSE
     )
   }))
-  tbl
+  out <- mmy::std_rownames(data.frame(t(tbl), stringsAsFactors = FALSE))
+  val.names <- if (nrow(tbl) > 1) {
+    paste0("__value_", seq(nrow(tbl)), "__")
+  } else {
+    "__value__"
+  }
+  names(out) <- c("__type__", val.names)
+  out
 }
 
 #' List global environment objects
