@@ -33,3 +33,29 @@ get_environment <- function(which = 1, exclude = NULL) {
   args <- as.list(envr, all.names = TRUE)
   args[names(args)[!names(args) %in% exclude]]
 }
+
+#' See types of R objects
+#' 
+#' @param x valid \R object(s).
+#' 
+#' @examples 
+#' see_object_types(list(1, "a"))
+#' see_object_types(call("mean"))
+#' see_object_types(as.name("fun"))
+#' @export
+see_object_types <- function(x) {
+  if (!is.list(x) && is.data.frame(x)) {
+    stop("x must be a list.")
+  }
+  tbl <- do.call(rbind, lapply(x, function(xi) {
+    data.frame(
+      class = class(xi),
+      mode = mode(xi),
+      typeof = typeof(xi),
+      storage.mode = storage.mode(xi),
+      stringsAsFactors = FALSE
+    )
+  }))
+  tbl
+}
+
