@@ -14,6 +14,8 @@ See types of R objects
 }
 \examples{
 see_object_types(list(1, "a"))
-see_object_types(call("mean"))
-see_object_types(as.name("fun"))
+see_object_types(list(1, 5L))
+see_object_types(list(as.name("mean")))
+see_object_types(list(`(`))
+see_object_types(list(`$`, 1L, `[[<-`))
 }

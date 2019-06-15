@@ -40,14 +40,17 @@ get_environment <- function(which = 1, exclude = NULL) {
 #' 
 #' @examples 
 #' see_object_types(list(1, "a"))
-#' see_object_types(call("mean"))
-#' see_object_types(as.name("fun"))
+#' see_object_types(list(1, 5L))
+#' see_object_types(list(as.name("mean")))
+#' see_object_types(list(`(`))
+#' see_object_types(list(`$`, 1L, `[[<-`))
 #' @export
 see_object_types <- function(x) {
-  if (!is.list(x) && is.data.frame(x)) {
-    stop("x must be a list.")
+  if (!(is.list(x) && !is.data.frame(x))) {
+    stop("x must be put in a list. see documentation examples for more info.")
   }
-  tbl <- do.call(rbind, lapply(x, function(xi) {
+  tbl <- do.call(rbind, lapply(seq_along(x), function(i) {
+    xi <- x[[i]]
     data.frame(
       class = class(xi),
       typeof = typeof(xi),
@@ -57,7 +60,7 @@ see_object_types <- function(x) {
     )
   }))
   out <- mmy::std_rownames(data.frame(t(tbl), stringsAsFactors = FALSE))
-  val.names <- if (nrow(tbl) > 1) {
+  val.names <- if (nrow(tbl) > 1L) {
     paste0("__value_", seq(nrow(tbl)), "__")
   } else {
     "__value__"
