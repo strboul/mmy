@@ -67,6 +67,17 @@ see_object_types <- function(...) {
   out
 }
 
+#' Return \code{SEXPTYPE} from C internals
+#' 
+#' @param x any valid \R object.
+#' 
+#' @seealso 
+#' \code{\link{pryr}{sexp_type}} returns a "similar output" as this call does.
+#' @export
+sexp.type <- function(x) {
+  .Call(`_sexptype`, x, PACKAGE = "mmy")
+}
+
 #' List global environment objects
 #'
 #' @param env which environment to look at.
