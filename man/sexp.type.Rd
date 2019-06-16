@@ -14,4 +14,5 @@ Return \code{SEXPTYPE} from C internals
 }
 \seealso{
 \code{\link{pryr}{sexp_type}} returns a "similar output" as this call does.
+However, \code{pryr} package does a lot more than showing underlying SEXP types.
 }

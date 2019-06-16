@@ -12,10 +12,26 @@ see_object_types(...)
 \description{
 See types of R objects
 }
+\details{
+\itemize{
+\item \code{class} displays \R's built-in S3 class.
+\item \code{typeof} type of an object.
+\item \code{mode} storage mode of an object.
+\item \code{storage.mode} \emph{used when calling functions written in another
+language.}
+\item \code{sexp.type} internal \code{SEXPTYPE} reprentation, see
+\code{\link{sexp.type}}.
+}
+}
 \examples{
 see_object_types(1, "a")
 see_object_types(1, 5L)
 see_object_types(as.name("mean"))
 see_object_types(`(`)
 see_object_types(`$`, 1L, `[[<-`)
+
+}
+\references{
+\href{https://cran.r-project.org/doc/manuals/r-release/R-lang.html}{R Language 
+Definition manual}
 }

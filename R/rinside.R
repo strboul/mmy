@@ -89,6 +89,7 @@ see_object_types <- function(...) {
 #' 
 #' @seealso 
 #' \code{\link{pryr}{sexp_type}} returns a "similar output" as this call does.
+#' However, \code{pryr} package does a lot more than showing underlying SEXP types.
 #' @export
 sexp.type <- function(x) {
   .Call(`_sexptype`, x, PACKAGE = "mmy")
