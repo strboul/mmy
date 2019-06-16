@@ -50,17 +50,17 @@ get_environment <- function(which = 1, exclude = NULL) {
 #' }
 #' 
 #' @examples 
-#' see_object_types(1, "a")
-#' see_object_types(1, 5L)
-#' see_object_types(as.name("mean"))
-#' see_object_types(`(`)
-#' see_object_types(`$`, 1L, `[[<-`)
+#' object_types(1, "a")
+#' object_types(1, 5L)
+#' object_types(as.name("mean"))
+#' object_types(`(`)
+#' object_types(`$`, 1L, `[[<-`)
 #' 
 #' @references 
 #' \href{https://cran.r-project.org/doc/manuals/r-release/R-lang.html}{R Language 
 #' Definition manual}
 #' @export
-see_object_types <- function(...) {
+object_types <- function(...) {
   x <- list(...)
   tbl <- do.call(rbind, lapply(seq_along(x), function(i) {
     xi <- x[[i]]

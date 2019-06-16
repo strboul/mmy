@@ -29,9 +29,9 @@ test_suite("machine_readable_name", {
   
 })
 
-test_suite("see_object_types", {
+test_suite("object_types", {
   
-  is_equal(mmy::see_object_types(1, "a"),
+  is_equal(mmy::object_types(1, "a"),
            structure(
              list(
                `__type__` = c("class", "typeof", "mode", "storage.mode"),
@@ -42,7 +42,7 @@ test_suite("see_object_types", {
              class = "data.frame"
            ))
   
-  is_equal(mmy::see_object_types(1, 5L),
+  is_equal(mmy::object_types(1, 5L),
            structure(
              list(
                `__type__` = c("class", "typeof", "mode", "storage.mode"),
@@ -54,7 +54,7 @@ test_suite("see_object_types", {
            ))
   
   is_equal(
-    mmy::see_object_types(as.name("mean")),
+    mmy::object_types(as.name("mean")),
     structure(
       list(
         `__type__` = c("class", "typeof", "mode", "storage.mode"),
@@ -65,7 +65,7 @@ test_suite("see_object_types", {
     )
   )
   
-  is_equal(mmy::see_object_types(`(`),
+  is_equal(mmy::object_types(`(`),
            structure(
              list(
                `__type__` = c("class", "typeof", "mode", "storage.mode"),
@@ -76,7 +76,7 @@ test_suite("see_object_types", {
            ))
   
   is_equal(
-    mmy::see_object_types(`$`, 1L, `[[<-`),
+    mmy::object_types(`$`, 1L, `[[<-`),
     structure(
       list(
         `__type__` = c("class", "typeof", "mode", "storage.mode"),
