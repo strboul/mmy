@@ -1,4 +1,9 @@
 
+#' A minimal unit testing suite
+#' @name UnitTesting
+NULL
+
+#' @rdname UnitTesting
 test_suite <- function(section, ...) {
   if (!is.character(section) && length(section) == 1L) {
     stop("section must be a character")
@@ -9,6 +14,7 @@ test_suite <- function(section, ...) {
   cat("success\n\n")
 }
 
+#' @rdname UnitTesting
 is_error <- function(call) {
   k <- tryCatch(call, error = function(e) e)
   if (!"simpleError" %in% class(k)) {
@@ -17,6 +23,7 @@ is_error <- function(call) {
   }
 }
 
+#' @rdname UnitTesting
 is_identical <- function(actual, expected) {
   res <- identical(actual, expected)
   if (!res) {
@@ -28,6 +35,7 @@ is_identical <- function(actual, expected) {
   }
 }
 
+#' @rdname UnitTesting
 is_equal <- function(actual, expected) {
   res <- all.equal(actual, expected)
   if (!isTRUE(res)) {
