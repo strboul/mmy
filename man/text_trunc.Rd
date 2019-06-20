@@ -4,12 +4,12 @@
 \alias{text_trunc}
 \title{Truncate longer texts}
 \usage{
-text_trunc(x, level = 15, sep = "")
+text_trunc(x, value = 15, sep = "")
 }
 \arguments{
 \item{x}{a vector.}
 
-\item{level}{threshold for truncation.}
+\item{value}{threshold for truncation.}
 
 \item{sep}{separator between the three-dots and truncated text.}
 }
@@ -19,6 +19,6 @@ Truncate longer texts
 \examples{
 \dontrun{
 text_trunc(c("apple", "this is a long text with more letters in it"))
-text_trunc("The quick brown fox jumps over the lazy dog", level = 20, sep = "\%")
+text_trunc("The quick brown fox jumps over the lazy dog", 20, sep = " ")
 }
 }

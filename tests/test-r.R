@@ -23,8 +23,19 @@ test_suite("machine_readable_name", {
       "cadillac-fleetwood", "lincoln-continental", "chrysler-imperial", 
       "fiat-128", "honda-civic", "toyota-corolla", "toyota-corona", 
       "dodge-challenger", "amc-javelin", "camaro-z28", "pontiac-firebird", 
-      "fiat-x19", "porsche-9142", "lotus-europa", "ford-pantera-l", 
+      "fiat-x1-9", "porsche-914-2", "lotus-europa", "ford-pantera-l", 
       "ferrari-dino", "maserati-bora", "volvo-142e")
+  )
+  
+  ## `machine_readable_name` doesn't change hyphen and underscore:
+  is_equal(
+    mmy::machine_readable_name("Sub-category files"),
+    "sub-category-files"
+  )
+  
+  is_equal(
+    mmy::machine_readable_name("Sub_Category_FILES"),
+    "sub_category_files"
   )
   
 })
@@ -34,44 +45,52 @@ test_suite("object_types", {
   is_equal(mmy::object_types(1, "a"),
            structure(
              list(
-               `__type__` = c("class", "typeof", "mode", "storage.mode"),
-               `__value_1__` = c("numeric", "double", "numeric", "double"),
-               `__value_2__` = c("character", "character", "character", "character")
+               `__type__` = c("class", "typeof", "mode", "storage.mode",
+                              "sexp.type"),
+               `__value_1__` = c("numeric", "double", "numeric",
+                                 "double", "REALSXP"),
+               `__value_2__` = c("character", "character",
+                                 "character", "character", "STRSXP")
              ),
-             row.names = c(NA,-4L),
+             row.names = c(NA,-5L),
              class = "data.frame"
            ))
   
   is_equal(mmy::object_types(1, 5L),
            structure(
              list(
-               `__type__` = c("class", "typeof", "mode", "storage.mode"),
-               `__value_1__` = c("numeric", "double", "numeric", "double"),
-               `__value_2__` = c("integer", "integer", "numeric", "integer")
+               `__type__` = c("class", "typeof", "mode", "storage.mode",
+                              "sexp.type"),
+               `__value_1__` = c("numeric", "double", "numeric",
+                                 "double", "REALSXP"),
+               `__value_2__` = c("integer", "integer",
+                                 "numeric", "integer", "INTSXP")
              ),
-             row.names = c(NA,-4L),
+             row.names = c(NA,-5L),
              class = "data.frame"
            ))
   
-  is_equal(
-    mmy::object_types(as.name("mean")),
-    structure(
-      list(
-        `__type__` = c("class", "typeof", "mode", "storage.mode"),
-        `__value__` = c("name", "symbol", "name", "symbol")
-      ),
-      row.names = c(NA,-4L),
-      class = "data.frame"
-    )
-  )
+  is_equal(mmy::object_types(as.name("mean")),
+           structure(
+             list(
+               `__type__` = c("class", "typeof", "mode", "storage.mode",
+                              "sexp.type"),
+               `__value__` = c("name", "symbol", "name", "symbol",
+                               "SYMSXP")
+             ),
+             row.names = c(NA, -5L),
+             class = "data.frame"
+           ))
   
   is_equal(mmy::object_types(`(`),
            structure(
              list(
-               `__type__` = c("class", "typeof", "mode", "storage.mode"),
-               `__value__` = c("function", "builtin", "function", "function")
+               `__type__` = c("class", "typeof", "mode", "storage.mode",
+                              "sexp.type"),
+               `__value__` = c("function", "builtin", "function",
+                               "function", "BUILTINSXP")
              ),
-             row.names = c(NA,-4L),
+             row.names = c(NA, -5L),
              class = "data.frame"
            ))
   
@@ -79,14 +98,32 @@ test_suite("object_types", {
     mmy::object_types(`$`, 1L, `[[<-`),
     structure(
       list(
-        `__type__` = c("class", "typeof", "mode", "storage.mode"),
-        `__value_1__` = c("function", "special", "function", "function"),
-        `__value_2__` = c("integer", "integer", "numeric", "integer"),
-        `__value_3__` = c("function", "special", "function", "function")
+        `__type__` = c("class", "typeof", "mode", "storage.mode",
+                       "sexp.type"),
+        `__value_1__` = c("function", "special", "function",
+                          "function", "SPECIALSXP"),
+        `__value_2__` = c("integer", "integer",
+                          "numeric", "integer", "INTSXP"),
+        `__value_3__` = c("function",
+                          "special", "function", "function", "SPECIALSXP")
       ),
-      row.names = c(NA,-4L),
+      row.names = c(NA, -5L),
       class = "data.frame"
     )
+  )
+  
+})
+
+test_suite("text_trunc", {
+  
+  is_equal(
+    mmy::text_trunc(c("apple", "this is a long text with more letters in it")),
+    c("apple", "this is a long...")
+  )
+  
+  is_equal(
+    mmy::text_trunc("The quick brown fox jumps over the lazy dog", 20, sep = " "),
+    "The quick brown fox ..."
   )
   
 })
