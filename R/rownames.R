@@ -28,6 +28,11 @@ un_rownames <- function(x) {
 #' @export
 std_rownames <- function(x, rowname = NULL) {
   stopifnot(is.data.frame(x))
+  r.names <- suppressWarnings(as.integer(rownames(x)))
+  if (identical(r.names, seq(1L, nrow(x)))) {
+    warning("No rownames found. Returning the same input the data.frame.")
+    return(x)
+  }
   rowname.column.name <- if (is.null(rowname)) ".rowname" else as.character(rowname)
   x[[rowname.column.name]] <- row.names(x)
   x <- x[c(rowname.column.name, setdiff(names(x), rowname.column.name))]
