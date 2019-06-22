@@ -4,12 +4,14 @@
 \alias{text_trunc}
 \title{Truncate longer texts}
 \usage{
-text_trunc(x, value = 15, sep = "")
+text_trunc(x, value = 15, symbol = "...", sep = "")
 }
 \arguments{
 \item{x}{a vector.}
 
 \item{value}{threshold for truncation.}
+
+\item{symbol}{the suffix symbol for the truncation. Default: \code{...}}
 
 \item{sep}{separator between the three-dots and truncated text.}
 }

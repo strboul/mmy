@@ -49,6 +49,7 @@ machine_readable_name <- function(x) {
 #'
 #' @param x a vector.
 #' @param value threshold for truncation.
+#' @param symbol the suffix symbol for the truncation. Default: \code{...}
 #' @param sep separator between the three-dots and truncated text.
 #' 
 #' @examples \dontrun{
@@ -56,13 +57,13 @@ machine_readable_name <- function(x) {
 #' text_trunc("The quick brown fox jumps over the lazy dog", 20, sep = " ")
 #' }
 #' @export
-text_trunc <- function(x, value = 15, sep = "") {
+text_trunc <- function(x, value = 15, symbol = "...", sep = "") {
   as.character(sapply(x, function(text) {
     if (nchar(text) <= value) {
       text
     } else {
       trimmed <- trimws(strtrim(text, value))
-      paste(trimmed, "...", sep = sep)
+      paste(trimmed, symbol, sep = sep)
     }
   }))
 }

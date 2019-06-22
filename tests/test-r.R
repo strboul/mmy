@@ -140,6 +140,11 @@ test_suite("text_trunc", {
     "The quick brown fox ..."
   )
   
+  is_equal(
+    mmy::text_trunc("The quick brown fox jumps over the lazy dog", 20, symbol = "***"),
+    "The quick brown fox***"
+  )
+  
 })
 
 ### ----------------------------------------------------------------- ###
