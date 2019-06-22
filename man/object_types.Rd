@@ -22,13 +22,14 @@ language.}
 \item \code{sexp.type} internal \code{SEXPTYPE} reprentation, see
 \code{\link{sexp.type}}.
 }
+
+Substituted object names are stored in the \code{attributes}. See \emph{Examples}.
 }
 \examples{
-object_types(1, "a")
 object_types(1, 5L)
 object_types(as.name("mean"))
-object_types(`(`)
-object_types(`$`, 1L, `[[<-`)
+types <- object_types(`$`, 1L, `[[<-`)
+attributes(types)
 
 }
 \references{

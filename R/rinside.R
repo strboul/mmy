@@ -49,12 +49,13 @@ get_environment <- function(which = 1, exclude = NULL) {
 #' \code{\link{sexp.type}}.
 #' }
 #' 
+#' Substituted object names are stored in the \code{attributes}. See \emph{Examples}.
+#' 
 #' @examples 
-#' object_types(1, "a")
 #' object_types(1, 5L)
 #' object_types(as.name("mean"))
-#' object_types(`(`)
-#' object_types(`$`, 1L, `[[<-`)
+#' types <- object_types(`$`, 1L, `[[<-`)
+#' attributes(types)
 #' 
 #' @references 
 #' \href{https://cran.r-project.org/doc/manuals/r-release/R-lang.html}{R Language 
@@ -62,6 +63,7 @@ get_environment <- function(which = 1, exclude = NULL) {
 #' @export
 object_types <- function(...) {
   x <- list(...)
+  
   tbl <- do.call(rbind, lapply(seq_along(x), function(i) {
     xi <- x[[i]]
     data.frame(
@@ -73,13 +75,25 @@ object_types <- function(...) {
       stringsAsFactors = FALSE
     )
   }))
+  
   out <- mmy::std_rownames(data.frame(t(tbl), stringsAsFactors = FALSE))
+  
   val.names <- if (nrow(tbl) > 1L) {
     paste0("__value_", seq(nrow(tbl)), "__")
   } else {
     "__value__"
   }
+  
   names(out) <- c("__type__", val.names)
+  
+  ## Add substitute attributes:
+  ll <- as.list(substitute(list(...)))
+  ## inds + 1 as the first element is 'list'
+  inds <- seq_along(x) + 1L
+  obj.names <- sapply(inds, function(n) deparse(ll[[n]]))
+  
+  attr(out, "substitutes") <- obj.names
+  
   out
 }
 

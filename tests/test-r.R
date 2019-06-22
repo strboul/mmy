@@ -41,58 +41,71 @@ test_suite("machine_readable_name", {
 })
 
 test_suite("object_types", {
+  is_equal(
+    mmy::object_types(1, "a"),
+    structure(
+      list(
+        `__type__` = c("class", "typeof", "mode", "storage.mode",
+                       "sexp.type"),
+        `__value_1__` = c("numeric", "double", "numeric",
+                          "double", "REALSXP"),
+        `__value_2__` = c("character", "character",
+                          "character", "character", "STRSXP")
+      ),
+      row.names = c(NA,-5L),
+      class = "data.frame",
+      substitutes = c("1",
+                      "\"a\"")
+    )
+  )
   
-  is_equal(mmy::object_types(1, "a"),
-           structure(
-             list(
-               `__type__` = c("class", "typeof", "mode", "storage.mode",
-                              "sexp.type"),
-               `__value_1__` = c("numeric", "double", "numeric",
-                                 "double", "REALSXP"),
-               `__value_2__` = c("character", "character",
-                                 "character", "character", "STRSXP")
-             ),
-             row.names = c(NA,-5L),
-             class = "data.frame"
-           ))
+  is_equal(
+    mmy::object_types(1, 5L),
+    structure(
+      list(
+        `__type__` = c("class", "typeof", "mode", "storage.mode",
+                       "sexp.type"),
+        `__value_1__` = c("numeric", "double", "numeric",
+                          "double", "REALSXP"),
+        `__value_2__` = c("integer", "integer",
+                          "numeric", "integer", "INTSXP")
+      ),
+      row.names = c(NA,-5L),
+      class = "data.frame",
+      substitutes = c("1",
+                      "5L")
+    )
+  )
   
-  is_equal(mmy::object_types(1, 5L),
-           structure(
-             list(
-               `__type__` = c("class", "typeof", "mode", "storage.mode",
-                              "sexp.type"),
-               `__value_1__` = c("numeric", "double", "numeric",
-                                 "double", "REALSXP"),
-               `__value_2__` = c("integer", "integer",
-                                 "numeric", "integer", "INTSXP")
-             ),
-             row.names = c(NA,-5L),
-             class = "data.frame"
-           ))
+  is_equal(
+    mmy::object_types(as.name("mean")),
+    structure(
+      list(
+        `__type__` = c("class", "typeof", "mode", "storage.mode",
+                       "sexp.type"),
+        `__value__` = c("name", "symbol", "name", "symbol",
+                        "SYMSXP")
+      ),
+      row.names = c(NA,-5L),
+      class = "data.frame",
+      substitutes = "as.name(\"mean\")"
+    )
+  )
   
-  is_equal(mmy::object_types(as.name("mean")),
-           structure(
-             list(
-               `__type__` = c("class", "typeof", "mode", "storage.mode",
-                              "sexp.type"),
-               `__value__` = c("name", "symbol", "name", "symbol",
-                               "SYMSXP")
-             ),
-             row.names = c(NA, -5L),
-             class = "data.frame"
-           ))
-  
-  is_equal(mmy::object_types(`(`),
-           structure(
-             list(
-               `__type__` = c("class", "typeof", "mode", "storage.mode",
-                              "sexp.type"),
-               `__value__` = c("function", "builtin", "function",
-                               "function", "BUILTINSXP")
-             ),
-             row.names = c(NA, -5L),
-             class = "data.frame"
-           ))
+  is_equal(
+    mmy::object_types(`(`),
+    structure(
+      list(
+        `__type__` = c("class", "typeof", "mode", "storage.mode",
+                       "sexp.type"),
+        `__value__` = c("function", "builtin", "function",
+                        "function", "BUILTINSXP")
+      ),
+      row.names = c(NA,-5L),
+      class = "data.frame",
+      substitutes = "("
+    )
+  )
   
   is_equal(
     mmy::object_types(`$`, 1L, `[[<-`),
@@ -107,8 +120,9 @@ test_suite("object_types", {
         `__value_3__` = c("function",
                           "special", "function", "function", "SPECIALSXP")
       ),
-      row.names = c(NA, -5L),
-      class = "data.frame"
+      row.names = c(NA,-5L),
+      class = "data.frame",
+      substitutes = c("$", "1L", "[[<-")
     )
   )
   
