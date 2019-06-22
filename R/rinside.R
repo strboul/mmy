@@ -60,20 +60,50 @@ get_environment <- function(which = 1, exclude = NULL) {
 #' @references 
 #' \href{https://cran.r-project.org/doc/manuals/r-release/R-lang.html}{R Language 
 #' Definition manual}
+#' @rdname object_types
 #' @export
 object_types <- function(...) {
-  x <- list(...)
+  calls <- c("class", "typeof", "mode", "storage.mode", "sexp.type")
+  .construct_type_table(..., calls = calls)
+}
+
+#' Checks the objects against language related object checks
+#' 
+#' @param ... valid \R object(s).
+#' 
+#' @examples 
+#' quo <- quote(x <- 2)
+#' check_language_object_types(quo, quo[[1]])
+#'
+#' @rdname object_types 
+#' @export
+check_language_object_types <- function(...) {
+  calls <- c(
+    "is.list",
+    "is.expression",
+    "is.name",
+    "is.symbol",
+    "is.call",
+    "is.function",
+    "is.primitive",
+    "is.pairlist",
+    "is.language"
+  )
+  .construct_type_table(..., calls = calls)
+}
+
+.construct_type_table <- function(..., calls) {
   
+  x <- list(...)
+
   tbl <- do.call(rbind, lapply(seq_along(x), function(i) {
     xi <- x[[i]]
-    data.frame(
-      class = class(xi),
-      typeof = typeof(xi),
-      mode = mode(xi),
-      storage.mode = storage.mode(xi),
-      sexp.type = sexp.type(xi),
-      stringsAsFactors = FALSE
-    )
+    dfi <- do.call(cbind, lapply(seq_along(calls), function(t) {
+      value <- eval(substitute(call(xname, quote(xi)), list(xname = calls[t])))
+      eval(bquote(data.frame(.(value), stringsAsFactors = FALSE)))
+    }))
+    names(dfi) <- calls
+    dfi
   }))
   
   out <- mmy::std_rownames(data.frame(t(tbl), stringsAsFactors = FALSE))

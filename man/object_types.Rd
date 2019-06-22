@@ -2,15 +2,22 @@
 % Please edit documentation in R/rinside.R
 \name{object_types}
 \alias{object_types}
+\alias{check_language_object_types}
 \title{See types of R objects}
 \usage{
 object_types(...)
+
+check_language_object_types(...)
 }
 \arguments{
+\item{...}{valid \R object(s).}
+
 \item{...}{valid \R object(s).}
 }
 \description{
 See types of R objects
+
+Checks the objects against language related object checks
 }
 \details{
 \itemize{
@@ -30,6 +37,9 @@ object_types(1, 5L)
 mmy::object_types(quote(for (i in seq(5L)) i))
 types <- object_types(`$`, 1L, `[[<-`)
 attributes(types)
+
+quo <- quote(x <- 2)
+check_language_object_types(quo, quo[[1]])
 
 }
 \references{
