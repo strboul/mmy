@@ -8,6 +8,9 @@
 \Sexpr[strip.white=FALSE,results=rd]{mmy:::tlist_example_tree()}
 }
 \description{
+(WORK IN PROGRESS)
+}
+\details{
 \itemize{
 \item There're no list names in \code{tlist}, only indices.
 \item The list is flat. The nodes staying at the same level are not wrapped in
@@ -15,8 +18,8 @@ another list, rather a new node has been created.
 \item 'tlist's are designed to be used in small, not long stuctures. The semantics
 doesn't allow to go super deep down.
 }
-}
-\details{
+
+
 As seen in the graph above,
 
 \itemize{

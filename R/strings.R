@@ -58,13 +58,13 @@ machine_readable_name <- function(x) {
 #' }
 #' @export
 text_trunc <- function(x, value = 15, symbol = "...", sep = "") {
-  as.character(sapply(x, function(text) {
+  as.character(vapply(x, function(text) {
     if (nchar(text) <= value) {
       text
     } else {
       trimmed <- trimws(strtrim(text, value))
       paste(trimmed, symbol, sep = sep)
     }
-  }))
+  }, character(1)))
 }
 

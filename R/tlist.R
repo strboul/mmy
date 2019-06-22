@@ -93,7 +93,7 @@ tlist <- function() {
 
   }
   
-  access <- function(level, node)
+  access <- function(level, node) {}
 
   # appendSibling <- function(x, ...) {
   #   levels <- list(...)
@@ -147,7 +147,7 @@ tlist <- function() {
 #' @noRd
 print.tlist <- function(x, ...) {
   env.name <- utils::capture.output(x$env())
-  methods <- names(x)[sapply(x, typeof) == "closure"]
+  methods <- names(x)[vapply(x, typeof, character(1)) == "closure"]
   methods.display <- paste(" -", paste0(methods, "()"), collapse = "\n")
   cat(
     paste(

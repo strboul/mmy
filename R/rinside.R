@@ -90,7 +90,7 @@ object_types <- function(...) {
   ll <- as.list(substitute(list(...)))
   ## inds + 1 as the first element is 'list'
   inds <- seq_along(x) + 1L
-  obj.names <- sapply(inds, function(n) deparse(ll[[n]]))
+  obj.names <- vapply(inds, function(n) deparse(ll[[n]]), character(1))
   
   attr(out, "substitutes") <- obj.names
   
