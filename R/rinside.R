@@ -53,7 +53,7 @@ get_environment <- function(which = 1, exclude = NULL) {
 #' 
 #' @examples 
 #' object_types(1, 5L)
-#' object_types(as.name("mean"))
+#' mmy::object_types(quote(for (i in seq(5L)) i))
 #' types <- object_types(`$`, 1L, `[[<-`)
 #' attributes(types)
 #' 

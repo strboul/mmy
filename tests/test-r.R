@@ -126,6 +126,21 @@ test_suite("object_types", {
     )
   )
   
+  is_equal(
+    mmy::object_types(quote(for (i in seq(5L)) i)),
+    structure(
+      list(
+        `__type__` = c("class", "typeof", "mode", "storage.mode",
+                       "sexp.type"),
+        `__value__` = c("for", "language", "call", "language",
+                        "LANGSXP")
+      ),
+      row.names = c(NA,-5L),
+      class = "data.frame",
+      substitutes = "quote(for (i in seq(5L)) i)"
+    )
+  )
+  
 })
 
 test_suite("text_trunc", {
