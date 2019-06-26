@@ -4,7 +4,8 @@
 
 Install the package
 
-```{r}
+```r
 devtools::install_github("strboul/mmy")
 ```
+
 
