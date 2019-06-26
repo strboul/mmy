@@ -139,15 +139,17 @@ sexp.type <- function(x) {
   .Call(`_sexptype`, x, PACKAGE = "mmy")
 }
 
-#' List global environment objects
+#' List environment objects
 #'
 #' @param env which environment to look at.
+#' @param show.dot display objects starting with dot.
 #' @details Similar to what RStudio environment pane displays.
 #' @importFrom utils object.size
 #' @export
-list_global_objects <- function(env = ".GlobalEnv") {
-  envir <- eval(parse(text = env))
-  do.call("rbind", lapply(ls(envir = envir, all.names = TRUE), function(i) {
+list_env_objects <- function(env = globalenv(), show.dot = FALSE) {
+  stopifnot(inherits(env, "environment"))
+  # TODO object_types
+  do.call(rbind, lapply(ls(envir = env, all.names = show.dot), function(i) {
     g <- get(i)
     data.frame(
       object = i,
@@ -157,6 +159,10 @@ list_global_objects <- function(env = ".GlobalEnv") {
       size.byte = as.character(utils::object.size(g)),
       stringsAsFactors = FALSE)
   })) -> objs
-  objs[order(objs[["size.byte"]], decreasing = TRUE), ]
+  if (is.null(objs)) {
+    return(NULL)
+  }
+  res <- objs[order(objs[["object"]], decreasing = TRUE), ]
+  mmy::un_rownames(res)
 }
 
