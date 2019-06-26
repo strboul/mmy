@@ -13,6 +13,6 @@ sexp.type(x)
 Return \code{SEXPTYPE} from C internals
 }
 \seealso{
-\code{\link{pryr}{sexp_type}} returns a "similar output" as this call does.
-However, \code{pryr} package does a lot more than showing underlying SEXP types.
+\code{\link[pryr]{sexp_type}} returns a \dQuote{similar output} as this call does.
+However, \code{pryr} package does more things.
 }

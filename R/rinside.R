@@ -34,9 +34,10 @@ get_environment <- function(which = 1, exclude = NULL) {
   args[names(args)[!names(args) %in% exclude]]
 }
 
-#' See types of R objects
+#' Inspect types of R objects
 #' 
 #' @param ... valid \R object(s).
+#' @param echo should objects be printed into the console?
 #' 
 #' @details 
 #' \itemize{
@@ -57,27 +58,27 @@ get_environment <- function(which = 1, exclude = NULL) {
 #' types <- object_types(`$`, 1L, `[[<-`)
 #' attributes(types)
 #' 
-#' @references 
-#' \href{https://cran.r-project.org/doc/manuals/r-release/R-lang.html}{R Language 
-#' Definition manual}
-#' @rdname object_types
-#' @export
-object_types <- function(...) {
-  calls <- c("class", "typeof", "mode", "storage.mode", "sexp.type")
-  .construct_type_table(..., calls = calls)
-}
-
-#' Checks the objects against language related object checks
-#' 
-#' @param ... valid \R object(s).
-#' 
 #' @examples 
 #' quo <- quote(x <- 2)
 #' check_language_object_types(quo, quo[[1]])
-#'
-#' @rdname object_types 
+#' 
+#' @references 
+#' \href{https://cran.r-project.org/doc/manuals/r-release/R-lang.html}{R Language 
+#' Definition manual}
+#' @name ObjectChecks
+NULL
+
+#' @rdname ObjectChecks
 #' @export
-check_language_object_types <- function(...) {
+object_types <- function(..., echo = FALSE) {
+  calls <- c("class", "typeof", "mode", "storage.mode", "sexp.type")
+  res <- .construct_type_table(..., calls = calls, echo = echo)
+  res
+}
+
+#' @rdname ObjectChecks
+#' @export
+check_language_object_types <- function(..., echo = FALSE) {
   calls <- c(
     "is.list",
     "is.expression",
@@ -89,13 +90,11 @@ check_language_object_types <- function(...) {
     "is.pairlist",
     "is.language"
   )
-  .construct_type_table(..., calls = calls)
+  .construct_type_table(..., calls = calls, echo = echo)
 }
 
-.construct_type_table <- function(..., calls) {
-  
+.construct_type_table <- function(..., calls, echo) {
   x <- list(...)
-
   tbl <- do.call(rbind, lapply(seq_along(x), function(i) {
     xi <- x[[i]]
     dfi <- do.call(cbind, lapply(seq_along(calls), function(t) {
@@ -105,25 +104,27 @@ check_language_object_types <- function(...) {
     names(dfi) <- calls
     dfi
   }))
-  
   out <- mmy::std_rownames(data.frame(t(tbl), stringsAsFactors = FALSE))
-  
   val.names <- if (nrow(tbl) > 1L) {
     paste0("__value_", seq(nrow(tbl)), "__")
   } else {
     "__value__"
   }
-  
   names(out) <- c("__type__", val.names)
-  
   ## Add substitute attributes:
   ll <- as.list(substitute(list(...)))
   ## inds + 1 as the first element is 'list'
   inds <- seq_along(x) + 1L
   obj.names <- vapply(inds, function(n) deparse(ll[[n]]), character(1))
-  
   attr(out, "substitutes") <- obj.names
-  
+  if (echo) {
+    ## TODO pairlist in the example below not echoed 
+    ## object_types(as.list(expression(a<-function(x,y) x+y))[[1]][[3]][[2]],echo=T)
+    objs <- paste(unlist(x), collapse = "\n")
+    italic <- paste0("\033[3m", objs,"\033[23m")
+    styled <- paste0("`", italic, "`")
+    cat(paste(styled, collapse = "\n"), "\n\n")
+  }
   out
 }
 
@@ -132,8 +133,8 @@ check_language_object_types <- function(...) {
 #' @param x any valid \R object.
 #' 
 #' @seealso 
-#' \code{\link{pryr}{sexp_type}} returns a "similar output" as this call does.
-#' However, \code{pryr} package does a lot more than showing underlying SEXP types.
+#' \code{\link[pryr]{sexp_type}} returns a \dQuote{similar output} as this call does.
+#' However, \code{pryr} package does more things.
 #' @export
 sexp.type <- function(x) {
   .Call(`_sexptype`, x, PACKAGE = "mmy")
