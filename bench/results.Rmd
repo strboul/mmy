@@ -4,7 +4,7 @@ output: md_document
 ---
 
 ```{r setup, echo=FALSE, warning=TRUE}
-mmy:::.warn_debug_makevars_flags()
+mmy:::warn_debug_makevars_flags()
 require(mmy, quietly = TRUE)
 ```
 

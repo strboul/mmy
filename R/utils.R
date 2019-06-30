@@ -12,13 +12,32 @@ tms <- function(tz = "", offset = TRUE) {
   format(Sys.time(), format.str, tz = tz)
 }
 
+#' Cat bold and yellow text to console
+#' 
+#' Yellow is a nice distinct color and sometimes I need it especially when I am in
+#' the middle of a development.
+#' 
+#' @param ... a valid \R object.
+#' @export
+catby <- function(...) {
+  cat(paste0("\033[1m\033[33m", ..., "\033[39m\033[22m"), "\n")
+}
+
 #' A primitive way to see if Makevars has debug flags
 #' 
-#' Most common Makevars flags:
-#' CFLAGS, CXXFLAGS, CXX11FLAGS, FFLAGS, FCFLAGS
+#' @details
+#' The most common \emph{Makevars} flags for \R:
+#' \itemize{
+#' \item \code{CFLAGS}
+#' \item \code{CXXFLAGS}
+#' \item \code{CXX11FLAGS}
+#' \item \code{FFLAGS}
+#' \item \code{FCFLAGS}
+#' }
 #' 
-#' @noRd
-.warn_debug_makevars_flags <- function() {
+#' @importFrom tools makevars_user
+#' @export
+warn_debug_makevars_flags <- function() {
   file <- tools::makevars_user()
   contents <- readLines(file)
   contents.clean <- gsub("#[^\n]*", "", contents) # stripping comments
@@ -32,12 +51,15 @@ tms <- function(tz = "", offset = TRUE) {
   if (grepl(chr.debug.flag, paste(val, collapse = "")))
     warning(
       paste(
-        "Seems like a debug build.",
-        "Not the best for benchmarking as compiler optimization is omitted.",
-        "Try again after removing debug flags",
-        chr.debug.flag,
-        "from",
-        file
+        "Seems you are using some debug build flags in the Makevars file.",
+        "It's not the best e.g. for benchmarking as compiler optimization is omitted.",
+        paste0(
+          "Try again after removing debug flags ",
+          "`", chr.debug.flag, "`",
+          " from ",
+          "`", file, "`"
+        ),
+        sep = "\n"
       ),
     call. = FALSE)
 }
