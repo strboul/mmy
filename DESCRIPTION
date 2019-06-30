@@ -5,7 +5,8 @@ Description: Custom solutions.
 Authors@R: person("Metin", "Yazici", email = "stradivariusboul+r@gmail.com", role = c("aut", "cre"))
 License: file LICENSE
 Imports:
-    utils
+    utils,
+    tools
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
