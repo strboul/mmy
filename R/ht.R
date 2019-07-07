@@ -1,6 +1,6 @@
 
 #' Glance first and last rows
-#' 
+#'
 #' @param x a \code{data.frame}
 #' @param n an integer indicating the number of first and last rows to be
 #' printed. The default value is \code{5}.
@@ -14,14 +14,13 @@
 #'
 #' @export
 ht <- function(x, n = 5) {
-	UseMethod("ht", x)	
+	UseMethod("ht", x)
 }
 
 #' @rdname ht
 #' @export
 ht.data.frame <- function(x, n = 5) {
-	ret <- .Call("_ht_df", PACKAGE = "mmy", x, n)
-	invisible(ret)
+	invisible(.Call(`_ht_df`, x, n, PACKAGE = "mmy"))
 }
 
 #' @rdname ht

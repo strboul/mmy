@@ -1,7 +1,7 @@
 
 source("test-helpers.R")
 
-### different input types & lengths:
+## different input types & lengths:
 is_error(ht("A"))
 is_error(ht(c("a", "b", "c")))
 is_error(ht(100))
@@ -11,9 +11,8 @@ is_error(ht(c(iris, mtcars)))
 is_error(ht(iris, "A"))
 is_error(ht(iris, c("A", "B")))
 
-### Memory tests:
-### I'd rather run those time-consuming tests on a different process or a CI
-### platform rather than an interactive process that might be in other use.
-if (!interactive()) {
-  multiple_expect(mmy::ht(iris), n = 10, use.gctorture = TRUE)  
-}
+## Memory tests:
+## I'd rather run gctorture on a different process or Travis CI platform rather than
+## the current interactive process because it's a long haul.
+multiple_expect(mmy::ht(iris), n = 10, use.gctorture = IS.TRAVIS)
+

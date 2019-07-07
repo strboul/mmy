@@ -56,8 +56,9 @@ is_equal <- function(actual, expected) {
 #' @param use.gctorture \code{\link{gctorture}} calls \code{\link{gc}} after every allocation.
 #' 
 #' @details
-#' Memory-wise, C code can be called multiple times to check if any garbage
-#' values are returned.
+#' Although it's safer to check code with a memory management profiler like Valgrind,
+#' the C code can be called multiple times to check if any garbage values are
+#' returned due to buffer overflow.
 #' 
 #' \code{\link{gctorture}} makes R hundred times slower. Consider choosing sane
 #' values for \code{n} when \code{use.gctorture} is \code{TRUE}.
@@ -105,3 +106,7 @@ multiple_expect <- function(x.call, n = 5, use.gctorture = TRUE) {
   ## if everything goes well, return TRUE invisibly:
   invisible(TRUE)
 }
+
+# Is user Travis-CI?
+IS.TRAVIS <- ifelse(Sys.getenv("USER") == "travis", TRUE, FALSE)
+
