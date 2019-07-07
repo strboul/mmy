@@ -4,11 +4,10 @@
 \alias{tlist}
 \title{An opinionated way to construct (tree-like) lists}
 \usage{
-\code{tlist()} \cr
-\Sexpr[strip.white=FALSE,results=rd]{mmy:::tlist_example_tree()}
+tlist()
 }
 \description{
-(WORK IN PROGRESS)
+An opinionated way to construct (tree-like) lists
 }
 \details{
 \itemize{
@@ -19,6 +18,16 @@ another list, rather a new node has been created.
 doesn't allow to go super deep down.
 }
 
+________________________________________________________\cr
+(1)...........A..........B..............C...............\cr
+_____________[1]________[2]____________[3]______________\cr
+............/.|.\........|......../...|...|...\.........\cr
+(2)........A..B..C.......A.......A....B...C....D........\cr
+_____________[1]________[2]____________[3]______________\cr
+........../.\....|..../.|.|.\........|....|.../.|.\.....\cr
+(3)......A...B...A...A..B.C..D.......A....A..A..B..C....\cr
+_________[1]____[2]_____[3]_________[4]__[5]___[6]______\cr
+(...)\cr
 
 As seen in the graph above,
 

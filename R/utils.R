@@ -3,28 +3,30 @@
 #'
 #' @param tz time zone.
 #' @param offset Add UTC offset hours at the end. Default is \code{TRUE}.
-#' 
+#'
 #' @export
 tms <- function(tz = "", offset = TRUE) {
   utc <- ifelse(offset, "%z", "")
-  
+
   format.str <- paste("%FT%T", utc, sep = "")
   format(Sys.time(), format.str, tz = tz)
 }
 
 #' Cat bold and yellow text to console
-#' 
+#'
 #' Yellow is a nice distinct color and sometimes I need it especially when I am in
 #' the middle of a development.
-#' 
+#'
 #' @param ... a valid \R object.
 #' @export
 catby <- function(...) {
-  cat(paste0("\033[1m\033[33m", ..., "\033[39m\033[22m"), "\n")
+	fmt <- tryCatch(paste0("\033[1m\033[33m", ..., "\033[39m\033[22m "),
+					 error = function(e) stop(e[["message"]], call. = FALSE))
+  cat(fmt, "\n")
 }
 
 #' A primitive way to see if Makevars has debug flags
-#' 
+#'
 #' @details
 #' The most common \emph{Makevars} flags for \R:
 #' \itemize{
@@ -34,7 +36,7 @@ catby <- function(...) {
 #' \item \code{FFLAGS}
 #' \item \code{FCFLAGS}
 #' }
-#' 
+#'
 #' @importFrom tools makevars_user
 #' @export
 warn_debug_makevars_flags <- function() {

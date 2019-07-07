@@ -5,8 +5,8 @@
 
 #' An opinionated way to construct (tree-like) lists
 #'
-#' (WORK IN PROGRESS)
-#'
+#' @details
+#' 
 #' \itemize{
 #' \item There're no list names in \code{tlist}, only indices.
 #' \item The list is flat. The nodes staying at the same level are not wrapped in
@@ -14,12 +14,18 @@
 #' \item 'tlist's are designed to be used in small, not long stuctures. The semantics
 #' doesn't allow to go super deep down.
 #' }
-#'
-#' @usage
-#' \code{tlist()} \cr
-#' \Sexpr[strip.white=FALSE,results=rd]{mmy:::tlist_example_tree()}
-#'
-#' @details
+#' 
+#' ________________________________________________________\cr
+#' (1)...........A..........B..............C...............\cr
+#' _____________[1]________[2]____________[3]______________\cr
+#' ............/.|.\........|......../...|...|...\.........\cr
+#' (2)........A..B..C.......A.......A....B...C....D........\cr
+#' _____________[1]________[2]____________[3]______________\cr
+#' ........../.\....|..../.|.|.\........|....|.../.|.\.....\cr
+#' (3)......A...B...A...A..B.C..D.......A....A..A..B..C....\cr
+#' _________[1]____[2]_____[3]_________[4]__[5]___[6]______\cr
+#' (...)\cr
+#' 
 #' As seen in the graph above,
 #' 
 #' \itemize{
@@ -90,25 +96,16 @@ tlist <- function() {
   }
 
   append <- function(x, level, node) {
-
+    levels <- list(...)
+    
+    index <- length(self$main[[level]]) + 1L
+    self$main[[level]][[index]] <<- x
   }
   
-  access <- function(level, node) {}
-
-  # appendSibling <- function(x, ...) {
-  #   levels <- list(...)
-  #   index <- length(self$main) + 1L
-  #   self$main[[index]] <<- list(x)
-  # }
-  #
-  # appendChild <- function(x, ...) {
-  #   levels <- list(...)
-  #
-  #   index <- length(self$main[[level]]) + 1L
-  #   self$main[[level]][[index]] <<- x
-  # }
-
-  # TODO .makeIndex <- function(x)
+  access <- function(level, node) {
+    
+  }
+  
 
   ## /_____________________________________________/
   ## Exported objects.
@@ -117,7 +114,7 @@ tlist <- function() {
     list(
       env = getEnv,
       main = getMainList,
-      mainListLength = getMainListLength,
+      dim = getMainListLength,
       append = append
     ),
     class = "tlist"
@@ -147,14 +144,13 @@ tlist <- function() {
 #' @noRd
 print.tlist <- function(x, ...) {
   env.name <- utils::capture.output(x$env())
-  methods <- names(x)[vapply(x, typeof, character(1)) == "closure"]
-  methods.display <- paste(" -", paste0(methods, "()"), collapse = "\n")
   cat(
     paste(
       "<tlist> constructor",
       "------------------",
       " available methods:",
-      methods.display,
+      " - main(): see the tlist",
+      " - append(): add new nodes to tlist",
       "",
       env.name,
       sep = "\n"
@@ -166,7 +162,7 @@ print.tlist <- function(x, ...) {
 #' @noRd
 print.tlist_main <- function(x, ...) {
   if (identical(length(x), 0L)) {
-    cat("tlist()")
+    cat("An empty <tlist>\n")
   } else {
     cat("<tlist>\n\n")
     print(unclass(x))
@@ -177,28 +173,8 @@ print.tlist_main <- function(x, ...) {
 ### UTILS ----
 ### ----------------------------------------------------------------- ###
 
-#' Documentation macro used in the 'tlist' documentation.
-#' @noRd
-tlist_example_tree <- function() {
-  tree <- '
-  ________________________________________________________
-  (1)           A          B              C               
-  _____________[1]________[2]____________[3]______________
-              / | \        |        /   |   |    \        
-  (2)       A   B  C       A       A   B    C     D       
-  _____________[1]________[2]____________[3]______________
-           / \     |    / | | \        |    |   / | \     
-  (3)     A   B    A   A  B C  D       A    A  A  B  C    
-  _________[1]____[2]_____[3]_________[4]__[5]___[6]______
-  (...)
-  '
-  
-  ## Replace all new lines with '\cr'
-  tree <- gsub(paste0("\\", "n"), paste0("\\\\", "cr"), tree)
-  
-  ## Escape slashes:
-  #TODO
-  
-  tree
+#' @export
+is_tlist <- function(x) {
+  inherits(x, "tlist") 
 }
 
