@@ -70,6 +70,7 @@ is_equal <- function(actual, expected) {
 #' multiple_expect(rnorm(5), n = 5, use.gctorture = FALSE)
 #' }
 #' 
+#' @importFrom utils capture.output
 #' @noRd
 multiple_expect <- function(x.call, n = 5, use.gctorture = TRUE) {
   
@@ -84,7 +85,7 @@ multiple_expect <- function(x.call, n = 5, use.gctorture = TRUE) {
   
   Actuals <- list()
   for (i in seq(n)) {
-    Actuals[[i]] <- capture.output(eval(parse(text = dx.call)))
+    Actuals[[i]] <- utils::capture.output(eval(parse(text = dx.call)))
   }
   
   # compare all:

@@ -51,13 +51,13 @@ test_suite("object_types", {
   is_equal(o1[o1[["__type__"]] == "typeof", "__value_1__"], typeof(1))
   is_equal(o1[o1[["__type__"]] == "mode", "__value_1__"], mode(1))
   is_equal(o1[o1[["__type__"]] == "storage.mode", "__value_1__"], storage.mode(1))
-  is_equal(o1[o1[["__type__"]] == "sexp.type", "__value_1__"], sexp.type(1))
+  is_equal(o1[o1[["__type__"]] == "sexp.type", "__value_1__"], mmy::sexp.type(1))
   
   is_equal(o1[o1[["__type__"]] == "class", "__value_2__"], class("a"))
   is_equal(o1[o1[["__type__"]] == "typeof", "__value_2__"], typeof("a"))
   is_equal(o1[o1[["__type__"]] == "mode", "__value_2__"], mode("a"))
   is_equal(o1[o1[["__type__"]] == "storage.mode", "__value_2__"], storage.mode("a"))
-  is_equal(o1[o1[["__type__"]] == "sexp.type", "__value_2__"], sexp.type("a"))
+  is_equal(o1[o1[["__type__"]] == "sexp.type", "__value_2__"], mmy::sexp.type("a"))
   
   is_equal(o1,
            structure(
@@ -81,13 +81,13 @@ test_suite("object_types", {
   is_equal(o2[o2[["__type__"]] == "typeof", "__value_1__"], typeof(1))
   is_equal(o2[o2[["__type__"]] == "mode", "__value_1__"], mode(1))
   is_equal(o2[o2[["__type__"]] == "storage.mode", "__value_1__"], storage.mode(1))
-  is_equal(o2[o2[["__type__"]] == "sexp.type", "__value_1__"], sexp.type(1))
+  is_equal(o2[o2[["__type__"]] == "sexp.type", "__value_1__"], mmy::sexp.type(1))
 
   is_equal(o2[o2[["__type__"]] == "class", "__value_2__"], class(5L))
   is_equal(o2[o2[["__type__"]] == "typeof", "__value_2__"], typeof(5L))
   is_equal(o2[o2[["__type__"]] == "mode", "__value_2__"], mode(5L))
   is_equal(o2[o2[["__type__"]] == "storage.mode", "__value_2__"], storage.mode(5L))
-  is_equal(o2[o2[["__type__"]] == "sexp.type", "__value_2__"], sexp.type(5L))
+  is_equal(o2[o2[["__type__"]] == "sexp.type", "__value_2__"], mmy::sexp.type(5L))
   
   is_equal(
     o2,
@@ -113,7 +113,7 @@ test_suite("object_types", {
   is_equal(o3[o3[["__type__"]] == "typeof", "__value__"], typeof(as.name("mean")))
   is_equal(o3[o3[["__type__"]] == "mode", "__value__"], mode(as.name("mean")))
   is_equal(o3[o3[["__type__"]] == "storage.mode", "__value__"], storage.mode(as.name("mean")))
-  is_equal(o3[o3[["__type__"]] == "sexp.type", "__value__"], sexp.type(as.name("mean")))
+  is_equal(o3[o3[["__type__"]] == "sexp.type", "__value__"], mmy::sexp.type(as.name("mean")))
   
   is_equal(
     o3,
@@ -136,7 +136,7 @@ test_suite("object_types", {
   is_equal(o4[o4[["__type__"]] == "typeof", "__value__"], typeof(`(`))
   is_equal(o4[o4[["__type__"]] == "mode", "__value__"], mode(`(`))
   is_equal(o4[o4[["__type__"]] == "storage.mode", "__value__"], storage.mode(`(`))
-  is_equal(o4[o4[["__type__"]] == "sexp.type", "__value__"], sexp.type(`(`))
+  is_equal(o4[o4[["__type__"]] == "sexp.type", "__value__"], mmy::sexp.type(`(`))
   
   is_equal(
     o4,
@@ -159,19 +159,19 @@ test_suite("object_types", {
   is_equal(opt[opt[["__type__"]] == "typeof", "__value_1__"], typeof(`$`))
   is_equal(opt[opt[["__type__"]] == "mode", "__value_1__"], mode(`$`))
   is_equal(opt[opt[["__type__"]] == "storage.mode", "__value_1__"], storage.mode(`$`))
-  is_equal(opt[opt[["__type__"]] == "sexp.type", "__value_1__"], sexp.type(`$`))
+  is_equal(opt[opt[["__type__"]] == "sexp.type", "__value_1__"], mmy::sexp.type(`$`))
   
   is_equal(opt[opt[["__type__"]] == "class", "__value_2__"], class(1L))
   is_equal(opt[opt[["__type__"]] == "typeof", "__value_2__"], typeof(1L))
   is_equal(opt[opt[["__type__"]] == "mode", "__value_2__"], mode(1L))
   is_equal(opt[opt[["__type__"]] == "storage.mode", "__value_2__"], storage.mode(1L))
-  is_equal(opt[opt[["__type__"]] == "sexp.type", "__value_2__"], sexp.type(1L))
+  is_equal(opt[opt[["__type__"]] == "sexp.type", "__value_2__"], mmy::sexp.type(1L))
   
   is_equal(opt[opt[["__type__"]] == "class", "__value_3__"], class(`[[<-`))
   is_equal(opt[opt[["__type__"]] == "typeof", "__value_3__"], typeof(`[[<-`))
   is_equal(opt[opt[["__type__"]] == "mode", "__value_3__"], mode(`[[<-`))
   is_equal(opt[opt[["__type__"]] == "storage.mode", "__value_3__"], storage.mode(`[[<-`))
-  is_equal(opt[opt[["__type__"]] == "sexp.type", "__value_3__"], sexp.type(`[[<-`))
+  is_equal(opt[opt[["__type__"]] == "sexp.type", "__value_3__"], mmy::sexp.type(`[[<-`))
   
   is_equal(
     opt,
@@ -198,7 +198,7 @@ test_suite("object_types", {
   is_equal(ofor[ofor[["__type__"]] == "typeof", "__value__"], typeof(quote(for (i in seq(5L)) i)))
   is_equal(ofor[ofor[["__type__"]] == "mode", "__value__"], mode(quote(for (i in seq(5L)) i)))
   is_equal(ofor[ofor[["__type__"]] == "storage.mode", "__value__"], storage.mode(quote(for (i in seq(5L)) i)))
-  is_equal(ofor[ofor[["__type__"]] == "sexp.type", "__value__"], sexp.type(quote(for (i in seq(5L)) i)))
+  is_equal(ofor[ofor[["__type__"]] == "sexp.type", "__value__"], mmy::sexp.type(quote(for (i in seq(5L)) i)))
   
   is_equal(
     ofor,
@@ -220,7 +220,7 @@ test_suite("object_types", {
 test_suite("check_language_object_types", {
   
   quo <- quote(x <- 2)
-  ot <- check_language_object_types(quo, quo[[1]])
+  ot <- mmy::check_language_object_types(quo, quo[[1]])
   
   is_equal(ot[ot[["__type__"]] == "is.list", "__value_1__"], is.list(quo))
   is_equal(ot[ot[["__type__"]] == "is.expression", "__value_1__"], is.expression(quo))

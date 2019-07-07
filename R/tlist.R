@@ -35,7 +35,7 @@
 #' \emph{nodes}, e.g. \code{[5]}.
 #' }
 #'
-#' @examples
+#' @examples \dontrun{
 #' ## Instantiate a tlist to keep fruit data:
 #' fruits <- tlist()
 #' fruits$append("apple", 1, 1)
@@ -45,7 +45,7 @@
 #' fruits$append(c("orange", "watermelon"), 1)
 #' ## Get the main list:
 #' fruits$main()
-#' 
+#' }
 #' @export
 tlist <- function() {
 
@@ -96,9 +96,10 @@ tlist <- function() {
   }
 
   append <- function(x, level, node) {
-    levels <- list(...)
-    
-    index <- length(self$main[[level]]) + 1L
+    if (length(self$main) < level) {
+      self$main[[level]] <- list()
+    }
+    index <- length(self$main[[node]]) + 1L
     self$main[[level]][[index]] <<- x
   }
   
@@ -141,12 +142,12 @@ tlist <- function() {
 }
 
 #' @importFrom utils capture.output
-#' @noRd
+#' @export
 print.tlist <- function(x, ...) {
   env.name <- utils::capture.output(x$env())
   cat(
     paste(
-      "<tlist> constructor",
+      paste(tlist_identifier(), "constructor"),
       "------------------",
       " available methods:",
       " - main(): see the tlist",
@@ -159,22 +160,24 @@ print.tlist <- function(x, ...) {
   )
 }
 
-#' @noRd
+#' @export
 print.tlist_main <- function(x, ...) {
-  if (identical(length(x), 0L)) {
-    cat("An empty <tlist>\n")
-  } else {
-    cat("<tlist>\n\n")
-    print(unclass(x))
-  }
+  cat(tlist_identifier(), "\n")
+  print(unclass(x))
 }
 
 ### ----------------------------------------------------------------- ###
 ### UTILS ----
 ### ----------------------------------------------------------------- ###
 
+#' Check if an object is a tlist
+#' 
+#' @param x any \R object.
 #' @export
 is_tlist <- function(x) {
   inherits(x, "tlist") 
 }
 
+tlist_identifier <- function(x) {
+  "\033[3m<tlist>\033[23m"
+}

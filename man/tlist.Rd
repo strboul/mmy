@@ -39,6 +39,7 @@ As seen in the graph above,
 }
 }
 \examples{
+\dontrun{
 ## Instantiate a tlist to keep fruit data:
 fruits <- tlist()
 fruits$append("apple", 1, 1)
@@ -48,5 +49,5 @@ fruits$append("seed", 1, 3)
 fruits$append(c("orange", "watermelon"), 1)
 ## Get the main list:
 fruits$main()
-
+}
 }
