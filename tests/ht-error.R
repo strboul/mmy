@@ -14,5 +14,5 @@ is_error(ht(iris, c("A", "B")))
 ## Memory tests:
 ## I'd rather run gctorture on a different process or Travis CI platform rather than
 ## the current interactive process because it's a long haul.
-multiple_expect(mmy::ht(iris), n = 10, use.gctorture = IS.TRAVIS)
+multiple_expect(mmy::ht(iris), n = 10, use.gctorture = is_on_ci_platform())
 
