@@ -37,6 +37,7 @@ ht.default <- function(x, n = 5) {
     dots <- paste(rep(".", 6L), collapse = "")
     cat(paste0(space, "1:"), h, "\n", dots, paste0("\n", sec.ind, ":"), t, sep = " ")
   }
+  cat("\n")
   invisible(NULL)
 }
 
