@@ -9,13 +9,16 @@ ask_question(title, answers = c("y", "N"))
 \arguments{
 \item{title}{the question.}
 
-\item{answers}{the vector for answers to the question. You may define as many as possible.}
+\item{answers}{the vector for answers to the question. You may define as many
+as possible.}
+}
+\value{
+The selected answer as a character vector. If no answer returned,
+e.g. pressed on Enter immediately after the prompt, a \code{NULL} is returned
+instead.
 }
 \description{
 Ask question in the command line
-}
-\details{
-Press "Enter" to quit ask, which will return \code{NULL}.
 }
 \examples{
 \dontrun{

@@ -1,10 +1,12 @@
 
 #' Ask question in the command line
-#' 
+#'
 #' @param title the question.
-#' @param answers the vector for answers to the question. You may define as many as possible.
-#' @details 
-#' Press "Enter" to quit ask, which will return \code{NULL}.
+#' @param answers the vector for answers to the question. You may define as many
+#' as possible.
+#' @return The selected answer as a character vector. If no answer returned,
+#' e.g. pressed on Enter immediately after the prompt, a \code{NULL} is returned
+#' instead.
 #' @examples \dontrun{
 #' ask_question("Do you like me?")
 #' ask_question("How much do you like this?", seq(5))
@@ -23,20 +25,19 @@ ask_question <- function(title, answers = c("y", "N")) {
   not.answered <- TRUE
   while (not.answered) {
     cat(title, "\n")
-    cat(answers.display, "\n")
-    answer <- readLines(con = stdin(), n = 1L)
-    if (answer %in% answers) {
-      not.answered <- FALSE
-    } else if (answer == "") { ## equals to entering
-      not.answered <- FALSE
-    } else {
-      cat(paste0("not a valid response: ", answer), "\n\n")
-      next
-    }
-  }
-  if (!answer == "") {
-    answer
-  } else {
-    invisible(NULL)
-  }
+		cat(answers.display, "\n")
+		answer <- scan("stdin", character(), nlines = 1, quiet = TRUE)
+		if (identical(length(answer), 0L) || answer == "") {
+			not.answered <- FALSE
+			answer <- NULL
+		} else if (answer %in% answers) {
+			not.answered <- FALSE
+		} else {
+			cat(paste0("not a valid response: ", answer), "\n\n")
+			next
+		}
+	}
+	answer
 }
+
+
