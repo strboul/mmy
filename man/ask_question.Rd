@@ -4,18 +4,21 @@
 \alias{ask_question}
 \title{Ask question in the command line}
 \usage{
-ask_question(title, answers = c("y", "N"))
+ask_question(title, answers = c("y", "N"), enterIsValidQuit = TRUE)
 }
 \arguments{
-\item{title}{the question.}
+\item{title}{for the question.}
 
-\item{answers}{the vector for answers to the question. You may define as many
-as possible.}
+\item{answers}{the vector for answers for the question. You may include
+vector elements (answers) as many as possible.}
+
+\item{enterIsValidQuit}{exits the prompt when an empty answer is provided,
+e.g. with \emph{Enter}, with a return value of \code{NULL}. Default value for
+this argument is \code{TRUE}.}
 }
 \value{
-The selected answer as a character vector. If no answer returned,
-e.g. pressed on Enter immediately after the prompt, a \code{NULL} is returned
-instead.
+The selected answer as a character vector. If no answer returned and
+if \code{enterIsValidQuit} is set to \code{TRUE}, a \code{NULL} is returned.
 }
 \description{
 Ask question in the command line
