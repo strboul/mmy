@@ -1,28 +1,35 @@
 
 #' Group sequences
-#' 
+#'
 #' Could be either increasing or decreasing sequences.
-#' 
+#'
 #' @param vector a numeric vector with a length of one.
-#' @examples 
+#' @return
+#' A list with a number of groups. The vectors in the list elements are the vector
+#' \strong{indices}, not values.
+#' @examples
 #' x <- c(16, 17, 18, 19, 100, 99, 98)
 #' grps <- group_sequence(x)
 #' ## get actual values from indices:
 #' sapply(grps, function(g) x[g])
 #' ## create a data.frame from groups:
 #' data.frame(
-#' group = seq_along(grps), 
-#' indices = I(grps), 
+#' group = seq_along(grps),
+#' indices = I(grps),
 #' elements = I(sapply(grps, function(g) x[g])),
 #' stringsAsFactors = FALSE
 #' )
+#' ## missing one in the middle:
+#' mm <- c(seq(1, 3), seq(5, 8))
+#' mm_seq <- group_sequence(mm)
+#' lapply(mm_seq, function(m) mm[m])
 #' @export
 group_sequence <- function(vector) {
   stopifnot(is.numeric(vector) && !length(vector) == 1L)
   dif <- diff(vector)
   dif.values <- c(1L, -1L)
   slices <- which(!dif %in% dif.values)
-  ## exit function early to omit overhead for the cases that the vector doesn't 
+  ## exit function early to omit overhead for the cases that the vector doesn't
   ## have any sequenced slice(s):
   if (!any(dif %in% dif.values)) {
     return(sapply(seq_along(vector), list))
