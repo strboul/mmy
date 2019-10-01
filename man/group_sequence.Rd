@@ -9,6 +9,10 @@ group_sequence(vector)
 \arguments{
 \item{vector}{a numeric vector with a length of one.}
 }
+\value{
+A list with a number of groups. The vectors in the list elements are the vector
+\strong{indices}, not values.
+}
 \description{
 Could be either increasing or decreasing sequences.
 }
@@ -19,9 +23,13 @@ grps <- group_sequence(x)
 sapply(grps, function(g) x[g])
 ## create a data.frame from groups:
 data.frame(
-group = seq_along(grps), 
-indices = I(grps), 
+group = seq_along(grps),
+indices = I(grps),
 elements = I(sapply(grps, function(g) x[g])),
 stringsAsFactors = FALSE
 )
+## missing one in the middle:
+mm <- c(seq(1, 3), seq(5, 8))
+mm_seq <- group_sequence(mm)
+lapply(mm_seq, function(m) mm[m])
 }

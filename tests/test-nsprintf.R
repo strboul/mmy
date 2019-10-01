@@ -27,6 +27,10 @@ test_suite("nsprintf", {
   )
   
   is_error(
+    mmy::nsprintf("A {{placeholder}} but no expressions.")
+  )
+  
+  is_error(
     mmy::nsprintf("No placeholders but an argument throws an error.", hello = "this")
   )
   
@@ -35,13 +39,5 @@ test_suite("nsprintf", {
                   placeholders = "A", double = "B")
   )
   
-})
-
-profmem::profmem({
-  nsprintf(
-  "My name is {{name}}. I am {{number}} years old.",
-  number = "25",
-  name = "Apple"
-)
 })
 

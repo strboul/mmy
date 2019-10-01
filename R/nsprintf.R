@@ -1,7 +1,8 @@
 
 #' Named sprintf
 #' 
-#' @param fmt format string including placeholders between curly braces.
+#' @param fmt format string including placeholders between shapes.
+#' @param phs placeholder shapes.
 #' @param ... the expressions used in placeholders.
 #' 
 #' @examples
@@ -17,22 +18,30 @@
 #' Inspired from here:
 #' \url{https://stackoverflow.com/a/55423080}
 #' @export
-nsprintf <- function(fmt, ...) {
+nsprintf <- function(fmt, ..., phs = c("\\{\\{", "\\}\\}")) {
   stopifnot(is.character(fmt))
-  phs <- c("\\{\\{", "\\}\\}")
-  num_ph <- .number_placeholders(fmt, phs)
-  if (!.has_valid_placeholders(num_ph)) {
-    stop("the number of curly braces don't match")
+  stopifnot(is.atomic(phs) && is.character(phs))
+  if (!identical(length(phs), 2L)) {
+    stop("the length of phs must be two")
   }
+  PH <- .extract_placeholders(fmt, phs)
+  PH_uniq <- unique(PH)
+  PH_len <- length(PH)
+  PH_uniq_len <- length(PH_uniq)
   args <- list(...)
   args_name <- names(args)
-  args_name_n <- length(args_name)
-  if (!identical(num_ph, args_name_n)) {
+  args_name_len <- length(args_name)
+  if (is.null(args_name)) {
+    if (length(args) > 0) {
+      stop("expressions must be named")
+    }
+  }
+  if (!identical(PH_uniq_len, args_name_len)) {
     stop("the number of placeholders and expressions not equal")
   }
-  if (num_ph == 0) {
+  if (PH_uniq_len == 0) {
     if (is.null(args_name)) {
-      return(sprintf(fmt, ...))
+      return(fmt)
     } else {
       stop("no curly braces found for the args provided")
     }
@@ -48,14 +57,8 @@ nsprintf <- function(fmt, ...) {
   do.call(sprintf, append(args, fmt, 0))
 }
 
-.has_valid_placeholders <- function(num_placeholders) {
-  if (num_placeholders %% 2L == 0L) TRUE else FALSE
+.extract_placeholders <- function(fmt, phs) {
+  pattern <- paste0(phs[1L], "(.*?)", phs[2L])
+  match <- regmatches(fmt, gregexpr(pattern, fmt))
+  unlist(match)
 }
-
-.number_placeholders <- function(text, placeholders) {
-  lst <- sapply(placeholders, function(ph) regmatches(text, gregexpr(ph, text)))
-  len <- length(unlist(lst)) / 2L
-  stopifnot(all.equal(len %% 2L, 0L))
-  len
-}
-
