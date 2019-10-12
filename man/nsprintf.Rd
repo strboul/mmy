@@ -4,12 +4,14 @@
 \alias{nsprintf}
 \title{Named sprintf}
 \usage{
-nsprintf(fmt, ...)
+nsprintf(fmt, ..., phs = c("\\\\{\\\\{", "\\\\}\\\\}"))
 }
 \arguments{
-\item{fmt}{format string including placeholders between curly braces.}
+\item{fmt}{format string including placeholders between shapes.}
 
 \item{...}{the expressions used in placeholders.}
+
+\item{phs}{placeholder shapes.}
 }
 \description{
 Named sprintf

@@ -25,6 +25,50 @@ catby <- function(...) {
   cat(fmt, "\n")
 }
 
+ANSI_STYLES <-
+  list(
+    reset = list(c0 = "\033[0m"),
+    color = list(
+      red = "\033[31m",
+      green = "\033[32m",
+      yellow = "\033[33m",
+      blue = "\033[34m",
+      white = "\033[37m"
+    ),
+    style = list(bold = "\033[1m")
+  )
+
+#' Cat with ANSI styles
+#'
+#' @param color color name.
+#' @param style style name.
+#' @param ... arguments passed by \code{\link{cat}}.
+#' 
+#' @rawRd
+#' \section{Available options for the parameters}{
+#' \subsection{for the \sQuote{color} parameter}{
+#' \Sexpr[stage=install,results=rd]{
+#' mmy::list_en_end(names(mmy:::ANSI_STYLES[["color"]]), add.quotes = TRUE)
+#' }
+#' }
+#' \subsection{for the \sQuote{style} parameter}{
+#' \Sexpr[stage=install,results=rd]{
+#' mmy::list_en_end(names(mmy:::ANSI_STYLES[["style"]]), add.quotes = TRUE)
+#' }
+#' }
+#' }
+#' @export
+catcl <- function(..., color = NULL, style = NULL) {
+	if (is.null(color) && is.null(style)) {
+				return(cat(...))
+	}
+	s <- ANSI_STYLES
+	txt <- paste(paste0(s[["color"]][[color]], s[["color"]][[color]]),
+	             ..., 
+	             s[["reset"]][["c0"]], sep = "")
+	cat(txt)
+}
+
 #' A primitive way to see if Makevars has debug flags
 #'
 #' @details
