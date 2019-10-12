@@ -5,12 +5,10 @@
 
 extern SEXP _sexptype(SEXP);
 extern SEXP _ht_df(SEXP, SEXP);
-extern SEXP _sln(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_sexptype", (DL_FUNC) &_sexptype, 1},
     {"_ht_df",    (DL_FUNC) &_ht_df,    2},
-    {"_sln",      (DL_FUNC) &_sln,      2},
     {NULL, NULL, 0}
 };
 

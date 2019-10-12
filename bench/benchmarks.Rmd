@@ -58,18 +58,6 @@ Plot timings:
 ggplot2::autoplot(results)
 ```
 
-## search_list_names
-
-```{r}
-basic <- read_test_data("basic.RDS") # TODO read big list
-microbenchmark::microbenchmark(
-  c_recur = cat({nms <- names(c(basic, recursive = TRUE));nms[grep("color", nms)]}, sep = "\n"),
-  sapply = "TODO",
-  search_list_names = mmy::search_list_names(basic, "color"),
-  times = 1e4
-)
-```
-
 ## group_sequence
 
 ```{r}
