@@ -70,6 +70,11 @@ SEXP _grp_cns(SEXP x, SEXP early_exit) {
   // `pivot + 1` because added 1 to the first one
   pgrp_out[pivot] = grp_ind;
   while (pivot < dif_len) {
+    
+    if (pivot % 1024 == 0) {
+      R_CheckUserInterrupt();
+    }
+    
     // TODO check dif_values[1]
     if (!(pdif[pivot] > dif_values[0])) {
       pgrp_out[pivot + 1] = grp_ind;
@@ -77,6 +82,7 @@ SEXP _grp_cns(SEXP x, SEXP early_exit) {
       grp_ind++;
       pgrp_out[pivot + 1] = grp_ind;
     }
+    
     pivot++;
   }
   
