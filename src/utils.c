@@ -1,4 +1,8 @@
 
+/**
+ * Utils for C data structures
+ **/
+
 #include "utils.h"
 
 /* get length of an integer */

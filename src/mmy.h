@@ -7,5 +7,6 @@
 #include <Rinternals.h>
 
 #include "utils.h"
+#include "utils_r.h"
 
 #endif
