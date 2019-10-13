@@ -46,7 +46,8 @@ stopifnot(identical(find.modes(multiple.mode), c(26, 27)))
 uniform.sample <- sample(1:1000, 1e6, replace = TRUE)
 results <- microbenchmark::microbenchmark(
   modes.sof = modes.sof(uniform.sample),
-  find.modes = find.modes(uniform.sample)
+  find.modes = find.modes(uniform.sample),
+  check = "identical"
 )
 results
 ```

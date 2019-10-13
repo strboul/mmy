@@ -1,0 +1,44 @@
+---
+title: "Benchmark group_consecutive"
+output: md_document
+---
+
+## Bench with base R solutions
+
+The base solution is adapted from:
+https://stackoverflow.com/a/5222365/
+beat it up!
+```{r}
+x <- sample(1e6)
+microbenchmark::microbenchmark(
+    cumsum(c(1L, diff(x) != 1L)),
+    mmy::group_consecutive(x),
+    check = "identical"
+)
+```
+
+## Testing the performance of `early_exit` option
+
+```{r}
+microbenchmark::microbenchmark(
+    with_early_exit = mmy::group_consecutive(x),
+    without_early_exit = mmy::group_consecutive(x, .early_exit = FALSE),
+    check = "identical"
+)
+```
+
+Seems that `early_exit` does not affect performance in mixed samples.
+What about consecutive numbers?
+
+```{r}
+y <- seq(1e6)
+microbenchmark::microbenchmark(
+    with_early_exit = mmy::group_consecutive(y),
+    without_early_exit = mmy::group_consecutive(y, .early_exit = FALSE),
+    check = "identical"
+)
+```
+
+Seems that the early exit is slightly faster than the without `early_exit` but don't 
+know whether the difference is significant.
+
