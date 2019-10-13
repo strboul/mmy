@@ -2,6 +2,6 @@
 ## Test datasets header
 ## ====================
 
-countries <- readRDS(file.path("data", "countries.RDS"))
-basic <- readRDS(file.path("data", "basic.RDS"))
+basic <- readRDS(file.path("data", "list-data-basic.RDS"))
+countries <- readRDS(file.path("data", "list-data-countries.RDS"))
 
