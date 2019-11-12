@@ -22,8 +22,8 @@ If the population standard deviation is known:
 \deqn{SE_{\overline{x}} = \frac{\sigma}{\sqrt{n}}}
 
 where
-\sigma: standard deviation of the population
-n: number of observations of the sample
+\eqn{\sigma}: standard deviation of the population
+\eqn{n}: number of observations of the sample
 
 If the population standard deviation is not known, the standard error of the mean
 is \emph{approximately} equal to the \dQuote{sample standard deviation} divided by
