@@ -1,6 +1,4 @@
 
-library(mmy)
-
 #' A minimal unit testing suite
 #' @name UnitTesting
 NULL

@@ -1,6 +1,4 @@
 
-source("test-helpers.R")
-
 test_suite("nsprintf", {
   
   is_equal( 

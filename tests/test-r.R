@@ -1,6 +1,4 @@
 
-source("test-helpers.R")
-
 test_suite("machine_readable_name", {
   
   k <- 1:5

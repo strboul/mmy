@@ -7,7 +7,8 @@
 warn_debug_makevars_flags()
 }
 \description{
-A primitive way to see if Makevars has debug flags
+The location of Makevars file is platform-specific. Use
+\code{tools::makevars_user()} to locate it in your system.
 }
 \details{
 The most common \emph{Makevars} flags for \R:
@@ -18,4 +19,6 @@ The most common \emph{Makevars} flags for \R:
 \item \code{FFLAGS}
 \item \code{FCFLAGS}
 }
+For debugging purposes, it's recommended to have the following flags:
+\code{CC=clang \n CFLAGS=-g -O0}
 }

@@ -1,6 +1,4 @@
 
-source("test-helpers.R")
-
 # Check ht.data.frame method specifically
 ht_df <- mmy:::ht.data.frame
 

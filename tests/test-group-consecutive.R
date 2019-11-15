@@ -1,6 +1,4 @@
 
-source("test-helpers.R")
-
 ## the base solution is adapted from:
 ## https://stackoverflow.com/a/5222365/
 basesolution <- function(x) cumsum(c(1L, diff(x) != 1L))

@@ -71,6 +71,10 @@ catcl <- function(..., color = NULL, style = NULL) {
 
 #' A primitive way to see if Makevars has debug flags
 #'
+#' @description 
+#' The location of Makevars file is platform-specific. Use
+#' \code{tools::makevars_user()} to locate it in your system.
+#' 
 #' @details
 #' The most common \emph{Makevars} flags for \R:
 #' \itemize{
@@ -80,7 +84,8 @@ catcl <- function(..., color = NULL, style = NULL) {
 #' \item \code{FFLAGS}
 #' \item \code{FCFLAGS}
 #' }
-#'
+#' For debugging purposes, it's recommended to have the following flags:
+#' \code{CC=clang \n CFLAGS=-g -O0}
 #' @importFrom tools makevars_user
 #' @export
 warn_debug_makevars_flags <- function() {

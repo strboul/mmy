@@ -1,6 +1,4 @@
 
-source("test-helpers.R")
-
 test_suite("list en end", {
   
   is_identical(list_en_end(c("a")), "a")

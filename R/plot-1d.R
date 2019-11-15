@@ -5,6 +5,7 @@
 #' This type of graph provides a batteries-included solution to plot one
 #' dimensional graphs, which is also production ready.
 #'
+#' @param x a numeric vector.
 #' @param highlight highlight
 #' @param title title
 #' @param subtitle subtitle
@@ -89,12 +90,8 @@ plot_1d <- function(x,
   if (is.list(labels.at)) {
     labels.at <- do.call(c, labels.at)
   }
-  plot.specs.at <- if (labels.round) {
-    round(labels.at, 2L)
-  } else {
-    labels.at
-  }
-  len.prox <- rep(0L,length(x))
+  plot.specs.at <- if (labels.round) round(labels.at, 2L) else labels.at
+  len.prox <- rep(0L, length(x))
   plot(
     x,
     len.prox,

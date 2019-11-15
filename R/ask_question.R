@@ -15,7 +15,7 @@
 #' }
 #' @export
 ask_question <- function(title, answers = c("y", "N"),
-												 enterIsValidQuit = TRUE) {
+                         enterIsValidQuit = TRUE) {
   if (!is.character(title)) title <- as.character(title)
   if (is.atomic(answers)) {
     if (!length(answers) > 0) {
@@ -28,24 +28,24 @@ ask_question <- function(title, answers = c("y", "N"),
   not.answered <- TRUE
   while (not.answered) {
     cat(title, "\n")
-		cat(answers.display, "\n")
-		answer <- scan("stdin", character(), nlines = 1, quiet = TRUE)
-		if (identical(length(answer), 0L) || answer == "") {
-			if (enterIsValidQuit) {
-				not.answered <- FALSE
-				answer <- NULL
-			} else {
-				cat(paste("not a valid response:", answer), "\n\n")
-				next
-			}
-		} else if (answer %in% answers) {
-			not.answered <- FALSE
-		} else {
-			cat(paste("not a valid response:", answer), "\n\n")
-			next
-		}
-	}
-	answer
+    cat(answers.display, "\n")
+    answer <- scan("stdin", character(), nlines = 1, quiet = TRUE)
+    if (identical(length(answer), 0L) || answer == "") {
+      if (enterIsValidQuit) {
+        not.answered <- FALSE
+        answer <- NULL
+      } else {
+        cat(paste("not a valid response:", answer), "\n\n")
+        next
+      }
+    } else if (answer %in% answers) {
+      not.answered <- FALSE
+    } else {
+      cat(paste("not a valid response:", answer), "\n\n")
+      next
+    }
+  }
+  answer
 }
 
 
