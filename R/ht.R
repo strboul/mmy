@@ -1,19 +1,26 @@
 
-#' Glance first and last rows
+#' Print head-tail
 #'
-#' @param x a \code{data.frame}
+#' @param x an \R object.
 #' @param n an integer indicating the number of first and last rows to be
 #' printed. The default value is \code{5}.
 #'
 #' @details
 #' The objects containing class of \code{data.frame} will
-#' call C implementation and the other implementations calls R functions.
+#' call \code{C} implementation and the other implementations calls \R functions.
 #'
 #' The call cannot be assigned to any variable, and the result will be
 #' \code{NULL (empty)} if it is done it so.
 #'
+#' @examples 
+#' ## data.frame:
+#' ht(mtcars)
+#' ## vector (default):
+#' ht(LETTERS, n = 10)
+#' ## list:
+#' ht(as.list(letters))
 #' @export
-ht <- function(x, n = 5) {
+ht <- function(x, ...) {
 	UseMethod("ht", x)
 }
 
@@ -41,10 +48,30 @@ ht.default <- function(x, n = 5) {
   invisible(NULL)
 }
 
-#' @importFrom utils capture.output head
+#' @importFrom utils capture.output
 #' @rdname ht
 #' @export
 ht.list <- function(x, n = 5) {
-  cat(utils::capture.output(utils::head(x, n)), sep = "\n")
+  out <- utils::capture.output(x)
+  i <- n
+  head_lines <- local({
+    line <- out[i]
+    while (line != "") {
+      i <- i + 1L
+      line <- out[i]
+    }
+    out[seq(1, i)]
+  })
+  tail_lines <- local({
+    line <- out[length(out) - i]
+    while (line != "") {
+      i <- i - 1L
+      line <- out[length(out) - i]
+    }
+    out[seq(length(out) - i, length(out))]
+  })
+  return <- c(head_lines, "[...]", tail_lines)
+  returnd <- trimws(paste(return, collapse = "\n"))
+  cat(returnd, sep = "\n")
 }
 
