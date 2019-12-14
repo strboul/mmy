@@ -50,6 +50,9 @@ get_environment <- function(which = 1, exclude = NULL) {
 #' \code{\link{sexp.type}}.
 #' }
 #' 
+#' \code{\link{mode}} and \code{\link{storage.mode}} are mainly used for the types
+#' that are compatible with \emph{S}.
+#' 
 #' Substituted object names are stored in the \code{attributes}. See \emph{Examples}.
 #' 
 #' @examples 

@@ -4,14 +4,29 @@
 \alias{plot_1d}
 \title{One-dimensional plot}
 \usage{
-plot_1d(x, highlight = NULL, title = NULL, subtitle = NULL,
-  display.max.min = TRUE, labels = TRUE, labels.at = range(x),
-  labels.round = TRUE, ablines.at = NULL, linecolor = "lightgray",
-  points.color = "darkgrey", alpha.points = FALSE,
-  highlight.color = "red", abline.color = highlight.color,
-  points.pch.type = 21, box = TRUE, grid = FALSE)
+plot_1d(
+  x,
+  highlight = NULL,
+  title = NULL,
+  subtitle = NULL,
+  display.max.min = TRUE,
+  labels = TRUE,
+  labels.at = range(x),
+  labels.round = TRUE,
+  ablines.at = NULL,
+  linecolor = "lightgray",
+  points.color = "darkgrey",
+  alpha.points = FALSE,
+  highlight.color = "red",
+  abline.color = highlight.color,
+  points.pch.type = 21,
+  box = TRUE,
+  grid = FALSE
+)
 }
 \arguments{
+\item{x}{a numeric vector.}
+
 \item{highlight}{highlight}
 
 \item{title}{title}

@@ -5,9 +5,9 @@
 \alias{ht.data.frame}
 \alias{ht.default}
 \alias{ht.list}
-\title{Glance first and last rows}
+\title{Print head-tail}
 \usage{
-ht(x, n = 5)
+ht(x, ...)
 
 \method{ht}{data.frame}(x, n = 5)
 
@@ -16,18 +16,26 @@ ht(x, n = 5)
 \method{ht}{list}(x, n = 5)
 }
 \arguments{
-\item{x}{a \code{data.frame}}
+\item{x}{an \R object.}
 
 \item{n}{an integer indicating the number of first and last rows to be
 printed. The default value is \code{5}.}
 }
 \description{
-Glance first and last rows
+Print head-tail
 }
 \details{
 The objects containing class of \code{data.frame} will
-call C implementation and the other implementations calls R functions.
+call \code{C} implementation and the other implementations calls \R functions.
 
 The call cannot be assigned to any variable, and the result will be
 \code{NULL (empty)} if it is done it so.
+}
+\examples{
+## data.frame:
+ht(mtcars)
+## vector (default):
+ht(LETTERS, n = 10)
+## list:
+ht(as.list(letters))
 }
