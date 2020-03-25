@@ -1,4 +1,3 @@
-
 #' Feature scaling: Min-max normalization
 #'
 #' @param x a numeric vector.
@@ -17,7 +16,6 @@
 #' @export
 rescale_minmax <- function(x) {
   if (is.integer(x)) x <- as.numeric(x)
-  .Call(`_RescaleMinMax`, x, PACKAGE = "minmax")
+  .Call(`_RescaleMinMax`, x, PACKAGE = "mmy")
 }
-
 

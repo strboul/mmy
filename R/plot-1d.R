@@ -13,7 +13,7 @@
 #' @param labels labels
 #' @param labels.at labels.at
 #' @param labels.round round the displayed min and max values to 2 after
-#'   decimals.
+#' decimals.
 #' @param ablines.at ablines.at
 #' @param linecolor linecolor
 #' @param points.color points.color
@@ -24,7 +24,10 @@
 #' @param box box
 #' @param grid add gridlines.
 #'
-#' @examples 
+#' @importFrom grDevices gray
+#' @importFrom graphics abline axis mtext plot
+#' @importFrom stats sd
+#' @examples
 #' ## simple vector:
 #' x <- c(-0.1, 0.34, 0.55, 0.95)
 #' plot_1d(x)

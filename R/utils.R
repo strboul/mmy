@@ -43,7 +43,7 @@ ANSI_STYLES <-
 #' @param color color name.
 #' @param style style name.
 #' @param ... arguments passed by \code{\link{cat}}.
-#' 
+#'
 #' @rawRd
 #' \section{Available options for the parameters}{
 #' \subsection{for the \sQuote{color} parameter}{
@@ -64,17 +64,18 @@ catcl <- function(..., color = NULL, style = NULL) {
 	}
 	s <- ANSI_STYLES
 	txt <- paste(paste0(s[["color"]][[color]], s[["color"]][[color]]),
-	             ..., 
+	             ...,
 	             s[["reset"]][["c0"]], sep = "")
 	cat(txt)
 }
 
+
 #' A primitive way to see if Makevars has debug flags
 #'
-#' @description 
+#' @description
 #' The location of Makevars file is platform-specific. Use
 #' \code{tools::makevars_user()} to locate it in your system.
-#' 
+#'
 #' @details
 #' The most common \emph{Makevars} flags for \R:
 #' \itemize{
@@ -86,6 +87,7 @@ catcl <- function(..., color = NULL, style = NULL) {
 #' }
 #' For debugging purposes, it's recommended to have the following flags:
 #' \code{CC=clang \n CFLAGS=-g -O0}
+#'
 #' @importFrom tools makevars_user
 #' @export
 warn_debug_makevars_flags <- function() {
