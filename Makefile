@@ -11,7 +11,7 @@ clean:
 	cd ..; \
 	$(RM) -r $(PKGNAME)_$(PKGVERS).tar.gz
 
-register_native_routines: 
+register_native_routines:
 	R -q -e "pkgbuild::compile_dll(force = TRUE, register_routines = TRUE)"
 
 check: install
@@ -20,7 +20,7 @@ check: install
 install: build
 	R CMD INSTALL .
 
-build: 
+build:
 	cd ..; \
 	R CMD build $(PKGNAME)
 

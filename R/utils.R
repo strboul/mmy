@@ -85,8 +85,12 @@ catcl <- function(..., color = NULL, style = NULL) {
 #' \item \code{FFLAGS}
 #' \item \code{FCFLAGS}
 #' }
+#'
 #' For debugging purposes, it's recommended to have the following flags:
-#' \code{CC=clang \n CFLAGS=-g -O0}
+#' \code{
+#'   CC=clang
+#'   CFLAGS=-g -O0
+#' }
 #'
 #' @importFrom tools makevars_user
 #' @export

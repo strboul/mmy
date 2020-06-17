@@ -19,6 +19,10 @@ The most common \emph{Makevars} flags for \R:
 \item \code{FFLAGS}
 \item \code{FCFLAGS}
 }
+
 For debugging purposes, it's recommended to have the following flags:
-\code{CC=clang \n CFLAGS=-g -O0}
+\code{
+  CC=clang
+  CFLAGS=-g -O0
+}
 }
