@@ -2,7 +2,7 @@
 % Please edit documentation in R/vd.R
 \name{vd}
 \alias{vd}
-\title{vd: Call visidata on data.frame}
+\title{vd: VisiData table}
 \usage{
 vd(x)
 }
@@ -10,5 +10,10 @@ vd(x)
 \item{x}{a data.frame.}
 }
 \description{
-vd: Call visidata on data.frame
+vd: VisiData table
+}
+\examples{
+\dontrun{
+mmy::vd(mtcars)
+}
 }

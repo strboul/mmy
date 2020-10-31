@@ -1,4 +1,4 @@
-#' vd: Call visidata on data.frame
+#' vd: VisiData table
 #'
 #' @param x a data.frame.
 #' @examples \dontrun{
@@ -12,9 +12,14 @@ vd <- function(x) {
     url     = "https://www.visidata.org/"
   )
   check_cmd_exists(cmd_details)
-  stopifnot(is.data.frame(x))
+  if (!is.data.frame(x))
+    stop(
+      sprintf("table must be a data.frame, provided: \"%s\"", class(x)),
+      call. = FALSE
+    )
+  x <- std_rownames(x)
   tmp_file <- tempfile("r_view_", fileext = ".csv")
-  write.csv(x, tmp_file)
+  write.table(x, tmp_file, sep = ", ", quote = TRUE, row.names = FALSE)
   system2(cmd_details$command, tmp_file)
   on.exit(unlink(tmp_file), add = TRUE)
   invisible(NULL)

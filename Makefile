@@ -6,6 +6,8 @@ PKGNAME := $(shell sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION)
 PKGVERS := $(shell sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION)
 PKGSRC  := $(shell basename `pwd`)
 
+all: document install
+
 clean:
 	$(RM) -r *.Rcheck/ ;\
 	cd ..; \
@@ -26,4 +28,3 @@ build:
 
 document:
 	R -q -e "devtools::document()"
-
