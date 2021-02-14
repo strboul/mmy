@@ -3,6 +3,9 @@
 #' @param ... objects to be passed onto [base::c].
 #' @references
 #' \url{https://gist.githubusercontent.com/flodel/5283216/raw/a781f7f320bd11e41a2c81affe5bec6f226dbf5e/ok.comma.R}
+#'
+#' @examples
+#' c_("trailing", "commas", "are", "cool", )
 #' @export
 c_ <- function(...) {
   arg_objects <- as.list(match.call())[-1L]
