@@ -12,6 +12,9 @@ c_(...)
 \description{
 Override base R allowing to put commas at the end (trailing comma)
 }
+\examples{
+c_("trailing", "commas", "are", "cool", )
+}
 \references{
 \url{https://gist.githubusercontent.com/flodel/5283216/raw/a781f7f320bd11e41a2c81affe5bec6f226dbf5e/ok.comma.R}
 }

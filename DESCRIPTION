@@ -7,6 +7,9 @@ License: file LICENSE
 Imports:
     utils,
     tools
+Suggests:
+    reactable,
+    htmltools
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
