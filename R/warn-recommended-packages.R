@@ -16,7 +16,7 @@ warn_recommended_packages <- function(packages) {
     c("package", "source", "link") %in% names(packages)
   )
   if (!interactive()) {
-    stop("only in interactive sessions")
+    return(invisible(NULL))
   }
   installed_packages <- utils::installed.packages()
   not_installed <- !packages$package %in% installed_packages
