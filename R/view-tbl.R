@@ -6,9 +6,7 @@
 #' \url{https://glin.github.io/reactable/articles/examples.html}
 #' @export
 view_tbl <- function(x) {
-  stopifnot(all(sapply(c("reactable", "htmltools"), function(pkg) {
-    require(pkg, quietly = TRUE)
-  })))
+  stopifnot(all(c("reactable", "htmltools") %in% installed.packages()))
   x <- un_rownames(x)
   x_len <- nrow(x)
   call_str <- deparse(as.list(match.call())[[2L]])
