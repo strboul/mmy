@@ -21,13 +21,13 @@
 #' ht(as.list(letters))
 #' @export
 ht <- function(x, ...) {
-	UseMethod("ht", x)
+  UseMethod("ht", x)
 }
 
 #' @rdname ht
 #' @export
 ht.data.frame <- function(x, n = 5) {
-	invisible(.Call(`_ht_df`, x, n, PACKAGE = "mmy"))
+  invisible(.Call(`_ht_df`, x, n, PACKAGE = "mmy"))
 }
 
 #' @rdname ht

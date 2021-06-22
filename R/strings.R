@@ -51,7 +51,7 @@ machine_readable_name <- function(x) {
 #' @param value threshold for truncation.
 #' @param symbol the suffix symbol for the truncation. Default: \code{...}
 #' @param sep separator between the three-dots and truncated text.
-#' 
+#'
 #' @examples \dontrun{
 #' text_trunc(c("apple", "this is a long text with more letters in it"))
 #' text_trunc("The quick brown fox jumps over the lazy dog", 20, sep = " ")

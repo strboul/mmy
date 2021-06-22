@@ -1,4 +1,3 @@
-
 #' Dealing with rownames
 #'
 #' @param x data.frame.
@@ -18,7 +17,6 @@ NULL
 #' @rdname rownames
 #' @export
 un_rownames <- function(x) {
-  stopifnot(is.data.frame(x))
   rownames(x) <- NULL
   x
 }
@@ -27,7 +25,6 @@ un_rownames <- function(x) {
 #' @rdname rownames
 #' @export
 std_rownames <- function(x, rowname = NULL) {
-  stopifnot(is.data.frame(x))
   r.names <- suppressWarnings(as.integer(rownames(x)))
   if (identical(r.names, seq(1L, nrow(x)))) {
     return(x)

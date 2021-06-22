@@ -1,3 +1,11 @@
+#' View objects in the browser
+#'
+#' @param x a generic object.
+#' @export
+view <- function(x, ...) {
+  UseMethod("view", x)
+}
+
 #' View a data frame in the browser with reactable
 #'
 #' Note: Pagination is must for performance for the large tables.
@@ -5,7 +13,7 @@
 #' @references
 #' \url{https://glin.github.io/reactable/articles/examples.html}
 #' @export
-view_tbl <- function(x) {
+view.data.frame <- function(x, ...) {
   stopifnot(all(c("reactable", "htmltools") %in% installed.packages()))
   x <- un_rownames(x)
   x_len <- nrow(x)
@@ -38,4 +46,26 @@ view_tbl <- function(x) {
       call_reactable()
     )
   )
+}
+
+#' @export
+view.matrix <- function(x, ...) {
+  x <- as.data.frame(x)
+  view.data.frame(x, ...)
+}
+
+#' View a list in the browser
+#'
+#' @references
+#' \url{https://cran.r-project.org/package=listviewer}
+#' @export
+view.list <- function(x, ...) {
+  stopifnot("listviewer" %in% installed.packages())
+  listviewer::jsonedit(x)
+}
+
+
+#' @export
+view.default <- function(x, ...) {
+  view.list(x, ...)
 }
