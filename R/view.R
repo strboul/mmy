@@ -17,7 +17,7 @@ view.data.frame <- function(x, ...) {
   stopifnot(all(c("reactable", "htmltools") %in% installed.packages()))
   x <- un_rownames(x)
   x_len <- nrow(x)
-  call_str <- deparse(as.list(match.call())[[2L]])
+  call_str <- paste(deparse(as.list(match.call())[[2L]]), collapse = "")
   call_str_trunc <- text_trunc(call_str, 20L)
   time_str <- format(Sys.time(), "%H:%m")
   site_title <- paste0(call_str_trunc, " | ", time_str)
